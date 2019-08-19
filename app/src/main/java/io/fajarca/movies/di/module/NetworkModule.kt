@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import io.fajarca.movies.BuildConfig
 import io.fajarca.movies.util.*
 import okhttp3.Cache
 import okhttp3.Interceptor
@@ -91,7 +92,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideBaseUrl() = BASE_URL
+    fun provideBaseUrl() = BuildConfig.BASE_URL
 
     @Provides
     @Singleton
