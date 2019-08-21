@@ -35,7 +35,7 @@ abstract class BaseFragment<B : ViewDataBinding, V : ViewModel> : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(getViewModelClass())
         mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutResourceId(), container, false)
-        mViewDataBinding.setLifecycleOwner(this)
+        mViewDataBinding.lifecycleOwner = this
         mViewDataBinding.executePendingBindings()
         return mViewDataBinding.root
     }
