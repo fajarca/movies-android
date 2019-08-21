@@ -2,12 +2,15 @@ package io.fajarca.movies.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import io.fajarca.movies.db.dao.ProvidersDao
-import io.fajarca.movies.db.entity.Providers
+import androidx.room.TypeConverters
+import io.fajarca.movies.db.dao.MovieDao
+import io.fajarca.movies.db.entity.Movie
+import io.fajarca.movies.util.Converters
 
 
-@Database(entities = [Providers::class], version = 1)
+@Database(entities = [Movie::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class MoviesDatabase : RoomDatabase() {
 
-    abstract fun providersDao(): ProvidersDao
+    abstract fun movieDao(): MovieDao
 }

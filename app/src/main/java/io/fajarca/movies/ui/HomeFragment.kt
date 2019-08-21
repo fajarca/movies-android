@@ -5,9 +5,8 @@ import android.view.View
 import androidx.lifecycle.Observer
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
-import io.fajarca.movies.databinding.FragmentHomeBinding
 import io.fajarca.movies.common.Result
-import timber.log.Timber
+import io.fajarca.movies.databinding.FragmentHomeBinding
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>() {
 
