@@ -3,14 +3,19 @@ package io.fajarca.movies.db.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import io.fajarca.movies.base.BaseDao
 import io.fajarca.movies.db.entity.Movie
 import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Observable
 
 @Dao
-interface MovieDao {
+abstract class MovieDao : BaseDao<Movie> {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(entity: List<Movie>) : Completable
+
+    @Query("SELECT * FROM movies ORDER BY release_date DESC")
+    abstract fun findAllNowPlaying() : Observable<List<Movie>>
 
 
 }

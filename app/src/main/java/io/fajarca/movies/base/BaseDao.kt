@@ -11,7 +11,7 @@ interface BaseDao<T> {
      * @param entity the object to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(entity: T)
+    fun insert(entity: T) : Completable
 
 
     /**
@@ -28,7 +28,7 @@ interface BaseDao<T> {
      * @param entity the object to be updated
      */
     @Update
-    fun update(entity: T)
+    fun update(entity: T) : Completable
 
     /**
      * Delete an object from the database
@@ -37,5 +37,5 @@ interface BaseDao<T> {
      */
 
     @Delete
-    fun delete(entity: T)
+    fun delete(entity: T) : Completable
 }
