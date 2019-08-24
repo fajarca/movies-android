@@ -1,16 +1,23 @@
 package io.fajarca.movies.ui
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.cardview.widget.CardView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import io.fajarca.movies.R
 import io.fajarca.movies.db.entity.Movie
+import io.fajarca.movies.util.IMAGE_BASE_URL
 
 class NowPlayingPagerAdapter(var movies: List<Movie>, val context: Context, var listener: onNowPlayingPressedListener) :
     PagerAdapter() {
@@ -31,7 +38,8 @@ class NowPlayingPagerAdapter(var movies: List<Movie>, val context: Context, var 
 
         val ivPoster = view.findViewById<ImageView>(R.id.ivPoster)
         val cardView = view.findViewById<CardView>(R.id.cardViewBanner)
-        val posterImage = "https://image.tmdb.org/t/p/w400/"+movies[position].backdropPath
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+        val posterImage = IMAGE_BASE_URL+movies[position].backdropPath
 
 
         val options = RequestOptions
@@ -40,7 +48,17 @@ class NowPlayingPagerAdapter(var movies: List<Movie>, val context: Context, var 
         Glide.with(context)
             .load(posterImage)
             .apply(options)
-            .thumbnail(0.1f)
+            .listener(object : RequestListener<Drawable>{
+                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                    progressBar.visibility = View.INVISIBLE
+                    return false
+                }
+
+                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                    progressBar.visibility = View.INVISIBLE
+                    return false
+                }
+            })
             .into(ivPoster)
 
         cardView.setOnClickListener {
