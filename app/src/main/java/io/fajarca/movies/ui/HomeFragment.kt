@@ -26,26 +26,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initNowPlaying()
+        initNowPlayingBanner()
 
         vm.getNowPlaying()
-
 
         vm.nowPlaying.observe(this, Observer {
             it?.let {
                 when(it) {
                     is Result.Loading -> {
-
+                        binding.stateView.showLoading()
                     }
                     is Result.HasData -> {
-                        nowPlayingAdapter.refreshNowPlaying(it.data)
-                        viewPager.setCurrentItem(it.data.size / 2, true)
+                        binding.stateView.showHasData()
+                        refreshBanner(it.data)
                     }
                     is Result.NoData -> {
-
                     }
                     is Result.Error -> {
-
+                        binding.stateView.showError(R.string.unknown_error)
                     }
 
                 }
@@ -54,18 +52,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
 
     }
 
-    private fun initNowPlaying() {
-        viewPager = binding.viewpager
+    private fun initNowPlayingBanner() {
+        viewPager = binding.viewpager.apply {
+            clipToPadding = false
+            pageMargin = 24
+            setPadding(48, 8, 48, 8)
+            offscreenPageLimit = 3
+        }
 
-        viewPager.clipToPadding = false
-        viewPager.pageMargin = 24
-        viewPager.setPadding(48, 8, 48, 8)
-        viewPager.offscreenPageLimit = 3
-
-
-
-        nowPlayingAdapter = NowPlayingPagerAdapter(ArrayList(), activity!!, this)
+        nowPlayingAdapter = NowPlayingPagerAdapter(emptyList(), requireActivity(), this)
         viewPager.adapter = nowPlayingAdapter
+    }
+    
+    private fun refreshBanner(data: List<Movie>) {
+        nowPlayingAdapter.refreshNowPlaying(data)
+        viewPager.setCurrentItem(data.size / 2, true)
     }
 
     override fun onNowPlayingPressed(banner: Movie, position: Int) {
