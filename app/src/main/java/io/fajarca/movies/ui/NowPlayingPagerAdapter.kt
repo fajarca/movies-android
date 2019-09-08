@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
@@ -16,7 +17,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.fajarca.movies.R
-import io.fajarca.movies.db.entity.Movie
+import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.util.IMAGE_BASE_URL
 
 class NowPlayingPagerAdapter(var movies: List<Movie>, val context: Context, var listener: onNowPlayingPressedListener) :
@@ -40,7 +41,11 @@ class NowPlayingPagerAdapter(var movies: List<Movie>, val context: Context, var 
         val cardView = view.findViewById<CardView>(R.id.cardViewBanner)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
         val posterImage = IMAGE_BASE_URL+movies[position].backdropPath
+        val tvTitle = view.findViewById<TextView>(R.id.tvTitle)
+        val tvCounter = view.findViewById<TextView>(R.id.tvCounter)
 
+        tvTitle.text = movies[position].originalTitle
+        tvCounter.text = "${position}/${movies.size}"
 
         val options = RequestOptions
             .fitCenterTransform()

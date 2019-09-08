@@ -1,8 +1,9 @@
-package co.id.ajsmsig.cs.simpel.base
+package io.fajarca.movies.base
 
 import androidx.lifecycle.ViewModel
 import androidx.databinding.ObservableBoolean
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.Job
 
 abstract class BaseViewModel : ViewModel() {
 

@@ -1,11 +1,13 @@
 package io.fajarca.movies.repository
 
-import io.fajarca.movies.api.ApiService
-import io.fajarca.movies.db.dao.MovieDao
-import io.fajarca.movies.db.entity.Movie
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
+import androidx.lifecycle.LiveData
+import io.fajarca.movies.data.remote.ApiResponse
+import io.fajarca.movies.data.remote.ApiService
+import io.fajarca.movies.data.remote.NetworkBoundResource
+import io.fajarca.movies.vo.Resource
+import io.fajarca.movies.data.local.dao.MovieDao
+import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.model.NowPlayingResponse
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(
@@ -13,46 +15,16 @@ class HomeRepository @Inject constructor(
     private val dao: MovieDao
 ) {
 
-    fun getNowPlaying(): Observable<List<Movie>> {
-        return Observable.concatArrayEager(
-            getNowPlayingFromDb(),
-            getNowPlayingFromApi()
-        )
-    }
+    fun getNowPlaying(language : String) : LiveData<Resource<List<Movie>>> {
 
-     private fun getNowPlayingFromDb(): Observable<List<Movie>> {
-        return dao.findAllNowPlaying()
-            .doOnNext {
-                Timber.v("Dispatching ${it.size} movie from DB")
-            }
-            .doOnError {
-                Timber.v("Error fetching from DB ${it.message}")
-            }
-    }
+        return object : NetworkBoundResource<List<Movie>, NowPlayingResponse>() {
+            override fun saveCallResult(item: NowPlayingResponse) = dao.insertAll(item.results)
+            override fun shouldFetch(data: List<Movie>): Boolean = true
+            override fun loadFromDb(): LiveData<List<Movie>> = dao.findAllNowPlaying()
+            override fun createCall(): LiveData<ApiResponse<NowPlayingResponse>> = apiService.nowPlaying(language = language)
 
-     private fun getNowPlayingFromApi(): Observable<List<Movie>> {
-        return apiService.nowPlaying()
-            .toObservable()
-            .map {
-                it.results
-            }
-            .doOnNext {
-                Timber.v("Dispatching ${it.size} movie from API")
-                insertMoviesToDb(it)
-            }
-            .doOnError {
-                Timber.v("Error fetching from API ${it.message}")
-            }
-    }
+        }.asLiveData()
 
-    private fun insertMoviesToDb(movies: List<Movie>) {
-        dao.insertAll(movies)
-            .doOnComplete {
-                Timber.v("Movies inserted to DB")
-            }
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .subscribe()
     }
 
 

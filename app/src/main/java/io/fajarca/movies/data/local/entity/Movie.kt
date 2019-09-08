@@ -1,4 +1,4 @@
-package io.fajarca.movies.db.entity
+package io.fajarca.movies.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

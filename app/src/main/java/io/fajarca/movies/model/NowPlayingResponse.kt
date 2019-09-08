@@ -2,7 +2,7 @@ package io.fajarca.movies.model
 
 
 import com.google.gson.annotations.SerializedName
-import io.fajarca.movies.db.entity.Movie
+import io.fajarca.movies.data.local.entity.Movie
 
 data class NowPlayingResponse(
     @SerializedName("page")

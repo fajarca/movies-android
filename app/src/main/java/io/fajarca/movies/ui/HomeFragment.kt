@@ -6,52 +6,78 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
-import io.fajarca.movies.common.Result
+import io.fajarca.movies.vo.Resource
+import io.fajarca.movies.vo.Status
 import io.fajarca.movies.databinding.FragmentHomeBinding
-import io.fajarca.movies.db.entity.Movie
-import java.util.*
+import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.util.extensions.plusAssign
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     NowPlayingPagerAdapter.onNowPlayingPressedListener {
 
+    companion object {
+        private const val SWIPE_INTERVAL = 8000L
+    }
 
     override fun getLayoutResourceId() = R.layout.fragment_home
     override fun getViewModelClass() = HomeViewModel::class.java
 
     private lateinit var viewPager: ViewPager
     private lateinit var nowPlayingAdapter: NowPlayingPagerAdapter
-    
+    private val compositeDisposable = CompositeDisposable()
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initNowPlayingBanner()
 
-        vm.getNowPlaying()
 
-        vm.nowPlaying.observe(this, Observer {
-            it?.let {
-                when(it) {
-                    is Result.Loading -> {
-                        binding.stateView.showLoading()
-                    }
-                    is Result.HasData -> {
-                        binding.stateView.showHasData()
-                        refreshBanner(it.data)
-                    }
-                    is Result.NoData -> {
-                    }
-                    is Result.Error -> {
-                        binding.stateView.showError(R.string.unknown_error)
-                    }
 
-                }
-            }
-        })
+        vm.initData("en-US")
+        vm.nowPlaying.observe(this, Observer { data -> setupNowPlaying(data) })
 
     }
 
+    private fun setupNowPlaying(data: Resource<List<Movie>>?) {
+        data?.let {
+            when(it.status) {
+                Status.LOADING -> {
+                    Timber.v("[Now playing] : Loading")
+                }
+                Status.ERROR -> {
+                    Timber.v("[Now playing] : Error}")
+                }
+                Status.SUCCESS -> {
+                    val data = it.data ?: emptyList()
+                    refreshBanner(data)
+                }
+                else -> {
+
+                }
+            }
+        }
+    }
+
+    private fun initBannerSwipeScheduler() {
+        compositeDisposable += Observable.interval(SWIPE_INTERVAL, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                val currentViewpagerPosition = viewPager.currentItem
+                val headlineBannerSize = nowPlayingAdapter.count
+                if (currentViewpagerPosition < headlineBannerSize - 1) {
+                    viewPager.setCurrentItem(currentViewpagerPosition + 1, true)
+                } else {
+                    viewPager.setCurrentItem(0, true)
+                }
+            }
+
+    }
     private fun initNowPlayingBanner() {
         viewPager = binding.viewpager.apply {
             clipToPadding = false
@@ -62,6 +88,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
 
         nowPlayingAdapter = NowPlayingPagerAdapter(emptyList(), requireActivity(), this)
         viewPager.adapter = nowPlayingAdapter
+
     }
     
     private fun refreshBanner(data: List<Movie>) {
@@ -71,5 +98,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
 
     override fun onNowPlayingPressed(banner: Movie, position: Int) {
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 }

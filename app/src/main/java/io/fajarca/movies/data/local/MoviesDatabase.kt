@@ -1,10 +1,10 @@
-package io.fajarca.movies.db
+package io.fajarca.movies.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import io.fajarca.movies.db.dao.MovieDao
-import io.fajarca.movies.db.entity.Movie
+import io.fajarca.movies.data.local.dao.MovieDao
+import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.util.Converters
 
 
