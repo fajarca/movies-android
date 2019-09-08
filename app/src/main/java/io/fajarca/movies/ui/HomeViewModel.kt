@@ -3,13 +3,13 @@ package io.fajarca.movies.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import io.fajarca.movies.base.BaseViewModel
+import androidx.lifecycle.ViewModel
 import io.fajarca.movies.vo.Resource
 import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.data.MoviesRepository
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(private val repository: MoviesRepository) : BaseViewModel() {
+class HomeViewModel @Inject constructor(private val repository: MoviesRepository) : ViewModel() {
 
     private val language =  MutableLiveData<String>()
 

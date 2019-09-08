@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.fajarca.movies.di.ViewModelFactory
-import io.fajarca.movies.di.ViewModelKey
+import io.fajarca.movies.util.ViewModelFactory
+import io.fajarca.movies.util.ViewModelKey
 import io.fajarca.movies.ui.HomeViewModel
 
 @Module
