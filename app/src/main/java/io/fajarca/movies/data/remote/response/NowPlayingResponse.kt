@@ -1,4 +1,4 @@
-package io.fajarca.movies.model
+package io.fajarca.movies.data.remote.response
 
 
 import com.google.gson.annotations.SerializedName

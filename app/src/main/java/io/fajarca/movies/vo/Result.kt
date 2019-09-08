@@ -1,4 +1,4 @@
-package io.fajarca.movies.common
+package io.fajarca.movies.vo
 
 import androidx.annotation.StringRes
 

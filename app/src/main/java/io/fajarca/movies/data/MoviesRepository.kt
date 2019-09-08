@@ -1,4 +1,4 @@
-package io.fajarca.movies.repository
+package io.fajarca.movies.data
 
 import androidx.lifecycle.LiveData
 import io.fajarca.movies.data.remote.ApiResponse
@@ -7,10 +7,10 @@ import io.fajarca.movies.data.remote.NetworkBoundResource
 import io.fajarca.movies.vo.Resource
 import io.fajarca.movies.data.local.dao.MovieDao
 import io.fajarca.movies.data.local.entity.Movie
-import io.fajarca.movies.model.NowPlayingResponse
+import io.fajarca.movies.data.remote.response.NowPlayingResponse
 import javax.inject.Inject
 
-class HomeRepository @Inject constructor(
+class MoviesRepository @Inject constructor(
     private val apiService: ApiService,
     private val dao: MovieDao
 ) {

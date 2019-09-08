@@ -1,7 +1,7 @@
 package io.fajarca.movies.data.remote
 
 import androidx.lifecycle.LiveData
-import io.fajarca.movies.model.NowPlayingResponse
+import io.fajarca.movies.data.remote.response.NowPlayingResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

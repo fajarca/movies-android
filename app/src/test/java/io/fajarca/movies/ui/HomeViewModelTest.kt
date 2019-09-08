@@ -1,14 +1,11 @@
 package io.fajarca.movies.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import io.fajarca.movies.repository.HomeRepository
-import kotlinx.coroutines.runBlocking
+import io.fajarca.movies.data.MoviesRepository
 import org.junit.After
 import org.junit.Before
 
-import org.junit.Assert.*
 import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.InjectMocks
@@ -19,7 +16,7 @@ import org.mockito.MockitoAnnotations
 class HomeViewModelTest {
 
     @Mock
-    lateinit var repository: HomeRepository
+    lateinit var repository: MoviesRepository
 
     @InjectMocks
     lateinit var viewModel : HomeViewModel
@@ -45,5 +42,5 @@ class HomeViewModelTest {
     @After
     fun tearDown() {
     }
-    
+
 }
