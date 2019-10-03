@@ -7,8 +7,8 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import io.fajarca.movies.MoviesApp
-import io.fajarca.movies.api.ApiService
-import io.fajarca.movies.db.MoviesDatabase
+import io.fajarca.movies.data.remote.ApiService
+import io.fajarca.movies.data.local.MoviesDatabase
 import io.fajarca.movies.util.DATABASE_NAME
 import io.fajarca.movies.util.PREF_NAME
 import retrofit2.Retrofit

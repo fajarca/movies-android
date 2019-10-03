@@ -1,4 +1,4 @@
-package io.fajarca.movies.di
+package io.fajarca.movies.util
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

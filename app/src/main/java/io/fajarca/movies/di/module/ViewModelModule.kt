@@ -1,9 +1,13 @@
 package io.fajarca.movies.di.module
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
-import io.fajarca.movies.di.ViewModelFactory
+import dagger.multibindings.IntoMap
+import io.fajarca.movies.util.ViewModelFactory
+import io.fajarca.movies.util.ViewModelKey
+import io.fajarca.movies.ui.HomeViewModel
 
 @Module
 abstract class ViewModelModule {
@@ -11,9 +15,9 @@ abstract class ViewModelModule {
     @Binds
     internal abstract fun bindViewModelFactory(factory : ViewModelFactory) : ViewModelProvider.Factory
 
-   /* @Binds
+    @Binds
     @IntoMap
-    @ViewModelKey(LoginViewModel::class)
-    internal abstract fun providesLoginViewModel(viewModel : LoginViewModel) : ViewModel*/
+    @ViewModelKey(HomeViewModel::class)
+    internal abstract fun providesHomeViewModel(viewModel : HomeViewModel) : ViewModel
 
 }

@@ -2,7 +2,7 @@ package io.fajarca.movies.di.module
 
 import dagger.Module
 import dagger.Provides
-import io.fajarca.movies.db.MoviesDatabase
+import io.fajarca.movies.data.local.MoviesDatabase
 import javax.inject.Singleton
 
 @Module
@@ -10,6 +10,6 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideProviderDao(db: MoviesDatabase) = db.providersDao()
+    fun provideMovieDao(db: MoviesDatabase) = db.movieDao()
 
 }

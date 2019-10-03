@@ -3,4 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="unknown_error">Sorry. It\'s looks like there is an unknown error in our end. Please try again later.</string>
+    <string name="please_wait">Please wait</string>
+
 </resources>

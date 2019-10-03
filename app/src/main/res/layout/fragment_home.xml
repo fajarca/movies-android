@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
+        <import type="android.view.View" />
+        <variable
+            name="vm"
+            type="io.fajarca.movies.ui.HomeViewModel" />
+        <variable
+            name="fragment"
+            type="io.fajarca.movies.ui.HomeFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:checkedButton="@id/btnNearMe"
-        android:gravity="center"
-        app:singleSelection="true"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnNearMe"
-            android:layout_width="wrap_content"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:text="Near Me"
-            android:layout_height="wrap_content" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnFavorite"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:text="Favorite"
-            android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        tools:context=".ui.HomeFragment">
 
 
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+        <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:listitem="@layout/item_now_playing" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <io.fajarca.movies.customview.UiStateView
+                android:id="@+id/stateView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/viewpager" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
+    
+</layout>
