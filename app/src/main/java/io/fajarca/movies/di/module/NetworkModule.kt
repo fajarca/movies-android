@@ -86,7 +86,6 @@ class NetworkModule {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .client(okHttpClient)
             .build()
     }

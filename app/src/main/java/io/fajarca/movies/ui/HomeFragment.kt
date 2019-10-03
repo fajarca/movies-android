@@ -6,11 +6,10 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
-import io.fajarca.movies.vo.Resource
-import io.fajarca.movies.vo.Status
-import io.fajarca.movies.databinding.FragmentHomeBinding
 import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.databinding.FragmentHomeBinding
 import io.fajarca.movies.util.extensions.plusAssign
+import io.fajarca.movies.vo.Result
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -36,26 +35,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
         super.onViewCreated(view, savedInstanceState)
 
         initNowPlayingBanner()
+        initBannerSwipeScheduler()
 
-
-
-        vm.initData("en-US")
         vm.nowPlaying.observe(this, Observer { data -> setupNowPlaying(data) })
 
     }
 
-    private fun setupNowPlaying(data: Resource<List<Movie>>?) {
+    private fun setupNowPlaying(data: Result<List<Movie>>?) {
         data?.let {
             when(it.status) {
-                Status.LOADING -> {
+                Result.Status.LOADING -> {
+                    binding.stateView.showLoading()
                     Timber.v("[Now playing] : Loading")
                 }
-                Status.ERROR -> {
+                Result.Status.ERROR -> {
+                    binding.stateView.hideLoading()
                     Timber.v("[Now playing] : Error}")
                 }
-                Status.SUCCESS -> {
-                    val data = it.data ?: emptyList()
-                    refreshBanner(data)
+                Result.Status.SUCCESS -> {
+                    binding.stateView.hideLoading()
+                    refreshBanner(it.data ?: emptyList())
                 }
                 else -> {
 

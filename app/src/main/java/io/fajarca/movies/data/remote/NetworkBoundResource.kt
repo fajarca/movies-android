@@ -4,20 +4,20 @@ import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import io.fajarca.movies.vo.Resource
+import io.fajarca.movies.vo.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-// ResultType: Type for the Resource data. It's a DB data
+// ResultType: Type for the Result data. It's a DB data
 // RequestType: Type for the API response.
 abstract class NetworkBoundResource<ResultType, RequestType> {
 
-    private val result = MediatorLiveData<Resource<ResultType>>()
+    private val result = MediatorLiveData<Result<ResultType>>()
 
     init {
 
-        result.value = Resource.loading(null)
+        result.value = Result.loading(null)
         val dbSource = loadFromDb()
 
         //Add db source to mediator live data
@@ -30,7 +30,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                 fetchFromNetwork(dbSource)
             } else {
                 result.addSource(dbSource) { newData ->
-                    setValue(Resource.success(newData))
+                    setValue(Result.success(newData))
                 }
             }
 
@@ -40,7 +40,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     @MainThread
-    private fun setValue(newValue : Resource<ResultType>) {
+    private fun setValue(newValue : Result<ResultType>) {
         if (result.value != newValue) {
             result.value = newValue
         }
@@ -51,7 +51,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
 
         // We re-attach dbSource as a new source, it will dispatch its latest value quickly
         result.addSource(dbSource) { newData ->
-            setValue(Resource.loading(newData))
+            setValue(Result.loading(newData))
         }
 
         result.addSource(apiResponse) { response ->
@@ -68,7 +68,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
 
                         GlobalScope.launch(Dispatchers.Main) {
                             result.addSource(loadFromDb()) { newData ->
-                                setValue(Resource.success(newData))
+                                setValue(Result.success(newData))
                             }
                         }
 
@@ -78,14 +78,14 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                 is ApiEmptyResponse -> {
                     GlobalScope.launch(Dispatchers.Main) {
                         result.addSource(loadFromDb()) { newData ->
-                            setValue(Resource.success(newData))
+                            setValue(Result.success(newData))
                         }
                     }
                 }
                 is ApiErrorResponse -> {
                     onFetchFailed()
                     result.addSource(dbSource) { newData ->
-                        setValue(Resource.error(response.errorMessage, newData))
+                        setValue(Result.error(response.errorMessage, newData))
                     }
                 }
             }
@@ -124,7 +124,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     protected open fun onFetchFailed() {}
 
 
-    fun asLiveData() : LiveData<Resource<ResultType>> = result
+    fun asLiveData() : LiveData<Result<ResultType>> = result
 
 
 
