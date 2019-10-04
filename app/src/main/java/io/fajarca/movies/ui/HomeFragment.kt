@@ -3,6 +3,7 @@ package io.fajarca.movies.ui
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
@@ -38,7 +39,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
         initBannerSwipeScheduler()
 
         vm.nowPlaying.observe(this, Observer { data -> setupNowPlaying(data) })
-        vm.movieDetail.observe(this, Observer { data -> setupMovieDetail(data) })
+
 
     }
 
@@ -100,7 +101,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     }
 
     override fun onNowPlayingPressed(banner: NowPlaying, position: Int) {
-
+        val action = HomeFragmentDirections.actionHomeFragmentToMovieDetail(banner.id)
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {

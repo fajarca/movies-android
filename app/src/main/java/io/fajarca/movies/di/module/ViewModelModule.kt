@@ -8,6 +8,7 @@ import dagger.multibindings.IntoMap
 import io.fajarca.movies.util.ViewModelFactory
 import io.fajarca.movies.util.ViewModelKey
 import io.fajarca.movies.ui.HomeViewModel
+import io.fajarca.movies.ui.moviedetail.MovieDetailViewModel
 
 @Module
 abstract class ViewModelModule {
@@ -19,5 +20,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
     internal abstract fun providesHomeViewModel(viewModel : HomeViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieDetailViewModel::class)
+    internal abstract fun providesMovieDetailViewModel(viewModel : MovieDetailViewModel) : ViewModel
 
 }

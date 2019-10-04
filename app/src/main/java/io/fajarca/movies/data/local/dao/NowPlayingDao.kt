@@ -10,7 +10,7 @@ import io.fajarca.movies.data.local.entity.NowPlaying
 @Dao
 interface NowPlayingDao {
 
-    @Query("SELECT * FROM nowPlayings ORDER BY release_date DESC")
+    @Query("SELECT * FROM now_playings ORDER BY release_date DESC")
     fun findAllNowPlaying() : LiveData<List<NowPlaying>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
