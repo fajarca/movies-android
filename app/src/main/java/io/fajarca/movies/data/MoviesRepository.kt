@@ -22,7 +22,7 @@ class MoviesRepository @Inject constructor(
     )
 
 
-    fun fetchMovieDetail(movieId : Long): LiveData<Result<List<Movie>>> {
+    fun fetchMovieDetail(movieId : Long): LiveData<Result<Movie>> {
         return resultLiveData(
             loadFromDb = { movieDao.findMovieById(movieId) },
             createCall = { remoteDataSource.fetchMovieDetail(movieId) },

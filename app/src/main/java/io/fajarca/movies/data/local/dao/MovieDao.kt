@@ -12,7 +12,7 @@ interface MovieDao {
 
 
     @Query("SELECT * FROM movies WHERE id =:movieId")
-    fun findMovieById(movieId : Long) : LiveData<List<Movie>>
+    fun findMovieById(movieId : Long) : LiveData<Movie>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(nowPlayings: Movie)

@@ -11,14 +11,12 @@ import javax.inject.Inject
 
 class MovieDetailViewModel @Inject constructor(private val repository: MoviesRepository) : ViewModel() {
 
-
     private val movieId = MutableLiveData<Long>()
+    val movieDetail : LiveData<Result<Movie>> = Transformations.switchMap(movieId, ::fetchMovieDetail)
 
     fun setData(movieId : Long) {
         this.movieId.value = movieId
     }
-
-    val movieDetail : LiveData<Result<List<Movie>>> = Transformations.switchMap(movieId, ::fetchMovieDetail)
 
     private fun fetchMovieDetail(movieId: Long) = repository.fetchMovieDetail(movieId)
 

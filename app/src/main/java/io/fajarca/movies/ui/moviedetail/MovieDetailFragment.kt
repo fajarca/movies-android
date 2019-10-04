@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
+import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.databinding.FragmentMovieDetailBinding
+import io.fajarca.movies.vo.Result
 
 class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetailViewModel>() {
 
@@ -26,10 +28,11 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         super.onViewCreated(view, savedInstanceState)
 
         vm.setData(movieId)
-        vm.movieDetail.observe(this, Observer {
-
-        })
+        vm.movieDetail.observe(this, Observer { subscribeMovieDetail(it) })
     }
 
+    private fun subscribeMovieDetail(it: Result<Movie>) {
+
+    }
 
 }
