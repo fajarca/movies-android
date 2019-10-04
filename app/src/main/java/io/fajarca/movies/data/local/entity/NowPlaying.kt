@@ -6,8 +6,8 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "movies")
-data class Movie(
+@Entity(tableName = "nowPlayings")
+data class NowPlaying(
 
     @PrimaryKey
     @ColumnInfo(name = "id")

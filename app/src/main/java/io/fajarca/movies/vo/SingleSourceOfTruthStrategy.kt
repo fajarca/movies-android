@@ -17,10 +17,11 @@ fun <T, A> resultLiveData(
     loadFromDb: () -> LiveData<T>,
     createCall: suspend () -> Result<A>,
     saveCallResult: suspend (A) -> Unit
-) =
+): LiveData<Result<T>> =
+
     liveData(Dispatchers.IO) {
 
-        emit(Result.loading(null))
+        emit(Result.loading<T>())
 
         val dbSource = loadFromDb.invoke()
         val mappedDbSource = dbSource.map {

@@ -7,6 +7,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val repository: MoviesRepository) : ViewModel() {
 
     val nowPlaying = repository.nowPlaying
+    val movieDetail = repository.movieDetail
 
 }
 

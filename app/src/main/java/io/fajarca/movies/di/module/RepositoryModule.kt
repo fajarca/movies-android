@@ -10,6 +10,6 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMovieDao(db: MoviesDatabase) = db.movieDao()
+    fun provideMovieDao(db: MoviesDatabase) = db.nowPlayingDao()
 
 }

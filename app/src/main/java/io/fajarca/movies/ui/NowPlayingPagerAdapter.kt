@@ -17,17 +17,17 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.fajarca.movies.R
-import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.data.local.entity.NowPlaying
 import io.fajarca.movies.util.IMAGE_BASE_URL
 
-class NowPlayingPagerAdapter(var movies: List<Movie>, val context: Context, var listener: onNowPlayingPressedListener) :
+class NowPlayingPagerAdapter(var nowPlayings: List<NowPlaying>, val context: Context, var listener: onNowPlayingPressedListener) :
     PagerAdapter() {
 
     override fun isViewFromObject(view: View, obj: Any): Boolean {
         return view == obj
     }
 
-    override fun getCount() = movies.size
+    override fun getCount() = nowPlayings.size
 
     override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {
         val view = obj as View
@@ -40,12 +40,12 @@ class NowPlayingPagerAdapter(var movies: List<Movie>, val context: Context, var 
         val ivPoster = view.findViewById<ImageView>(R.id.ivPoster)
         val cardView = view.findViewById<CardView>(R.id.cardViewBanner)
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
-        val posterImage = IMAGE_BASE_URL+movies[position].backdropPath
+        val posterImage = IMAGE_BASE_URL+nowPlayings[position].backdropPath
         val tvTitle = view.findViewById<TextView>(R.id.tvTitle)
         val tvCounter = view.findViewById<TextView>(R.id.tvCounter)
 
-        tvTitle.text = movies[position].originalTitle
-        tvCounter.text = "${position}/${movies.size}"
+        tvTitle.text = nowPlayings[position].originalTitle
+        tvCounter.text = "${position}/${nowPlayings.size}"
 
         val options = RequestOptions
             .fitCenterTransform()
@@ -67,7 +67,7 @@ class NowPlayingPagerAdapter(var movies: List<Movie>, val context: Context, var 
             .into(ivPoster)
 
         cardView.setOnClickListener {
-            listener.onNowPlayingPressed(movies[position], position)
+            listener.onNowPlayingPressed(nowPlayings[position], position)
         }
 
         container.addView(view)
@@ -75,14 +75,14 @@ class NowPlayingPagerAdapter(var movies: List<Movie>, val context: Context, var 
         return view
     }
 
-    fun refreshNowPlaying(movies: List<Movie>) {
-        this.movies = movies
+    fun refreshNowPlaying(nowPlayings: List<NowPlaying>) {
+        this.nowPlayings = nowPlayings
         notifyDataSetChanged()
     }
 
 
     interface onNowPlayingPressedListener {
-        fun onNowPlayingPressed(banner: Movie, position: Int)
+        fun onNowPlayingPressed(banner: NowPlaying, position: Int)
     }
 
 }

@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
-import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.data.local.entity.NowPlaying
 import io.fajarca.movies.databinding.FragmentHomeBinding
 import io.fajarca.movies.util.extensions.plusAssign
 import io.fajarca.movies.vo.Result
@@ -38,10 +38,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
         initBannerSwipeScheduler()
 
         vm.nowPlaying.observe(this, Observer { data -> setupNowPlaying(data) })
+        vm.movieDetail.observe(this, Observer { data -> setupMovieDetail(data) })
 
     }
 
-    private fun setupNowPlaying(data: Result<List<Movie>>?) {
+    private fun setupMovieDetail(data: Result<List<NowPlaying>>) {
+
+    }
+    private fun setupNowPlaying(data: Result<List<NowPlaying>>?) {
         data?.let {
             when(it.status) {
                 Result.Status.LOADING -> {
@@ -90,12 +94,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
 
     }
     
-    private fun refreshBanner(data: List<Movie>) {
+    private fun refreshBanner(data: List<NowPlaying>) {
         nowPlayingAdapter.refreshNowPlaying(data)
         viewPager.setCurrentItem(data.size / 2, true)
     }
 
-    override fun onNowPlayingPressed(banner: Movie, position: Int) {
+    override fun onNowPlayingPressed(banner: NowPlaying, position: Int) {
 
     }
 
