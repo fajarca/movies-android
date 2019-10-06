@@ -38,24 +38,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
         initNowPlayingBanner()
         initBannerSwipeScheduler()
 
-        vm.nowPlaying.observe(this, Observer { data -> setupNowPlaying(data) })
+        vm.nowPlaying.observe(this, Observer { data -> subscribeNowPlaying(data) })
 
 
     }
-
-    private fun setupMovieDetail(data: Result<List<NowPlaying>>) {
-
-    }
-    private fun setupNowPlaying(data: Result<List<NowPlaying>>?) {
+    
+    private fun subscribeNowPlaying(data: Result<List<NowPlaying>>?) {
         data?.let {
             when(it.status) {
                 Result.Status.LOADING -> {
                     binding.stateView.showLoading()
-                    Timber.v("[Now playing] : Loading")
                 }
                 Result.Status.ERROR -> {
                     binding.stateView.hideLoading()
-                    Timber.v("[Now playing] : Error}")
                 }
                 Result.Status.SUCCESS -> {
                     binding.stateView.hideLoading()
