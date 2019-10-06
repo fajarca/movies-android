@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import io.fajarca.movies.util.ViewModelFactory
 import io.fajarca.movies.util.ViewModelKey
-import io.fajarca.movies.ui.HomeViewModel
+import io.fajarca.movies.ui.home.HomeViewModel
 import io.fajarca.movies.ui.moviedetail.MovieDetailViewModel
 
 @Module

@@ -6,7 +6,7 @@ import io.fajarca.movies.data.local.dao.NowPlayingDao
 import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.data.remote.MovieRemoteDataSource
 import io.fajarca.movies.vo.Result
-import io.fajarca.movies.vo.resultLiveData
+import io.fajarca.movies.util.resultLiveData
 import javax.inject.Inject
 
 class MoviesRepository @Inject constructor(
@@ -18,7 +18,7 @@ class MoviesRepository @Inject constructor(
     val nowPlaying = resultLiveData(
         loadFromDb = { dao.findAllNowPlaying() },
         createCall = { remoteDataSource.fetchNowPlaying() },
-        saveCallResult =  { dao.insertAll(it.results)}
+        saveCallResult = { dao.insertAll(it.results) }
     )
 
 
@@ -26,7 +26,7 @@ class MoviesRepository @Inject constructor(
         return resultLiveData(
             loadFromDb = { movieDao.findMovieById(movieId) },
             createCall = { remoteDataSource.fetchMovieDetail(movieId) },
-            saveCallResult =  { movieDao.insert(it) } )
+            saveCallResult = { movieDao.insert(it) })
     }
 
 }

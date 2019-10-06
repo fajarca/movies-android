@@ -2,6 +2,7 @@ package io.fajarca.movies.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.fajarca.movies.data.MoviesRepository
+import io.fajarca.movies.ui.home.HomeViewModel
 import org.junit.After
 import org.junit.Before
 

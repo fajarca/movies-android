@@ -2,7 +2,7 @@ package io.fajarca.movies.di.module
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import io.fajarca.movies.ui.HomeFragment
+import io.fajarca.movies.ui.home.HomeFragment
 import io.fajarca.movies.ui.moviedetail.MovieDetailFragment
 
 @Module

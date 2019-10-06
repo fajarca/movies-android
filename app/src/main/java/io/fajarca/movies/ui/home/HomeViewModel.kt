@@ -1,4 +1,4 @@
-package io.fajarca.movies.ui
+package io.fajarca.movies.ui.home
 
 import androidx.lifecycle.ViewModel
 import io.fajarca.movies.data.MoviesRepository

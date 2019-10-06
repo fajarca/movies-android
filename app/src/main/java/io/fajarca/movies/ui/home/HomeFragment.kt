@@ -1,4 +1,4 @@
-package io.fajarca.movies.ui
+package io.fajarca.movies.ui.home
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,6 @@ import io.fajarca.movies.vo.Result
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
@@ -56,9 +55,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
                     binding.stateView.hideLoading()
                     refreshBanner(it.data ?: emptyList())
                 }
-                else -> {
-
-                }
             }
         }
     }
@@ -85,7 +81,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
             offscreenPageLimit = 3
         }
 
-        nowPlayingAdapter = NowPlayingPagerAdapter(emptyList(), requireActivity(), this)
+        nowPlayingAdapter =
+            NowPlayingPagerAdapter(emptyList(), requireActivity(), this)
         viewPager.adapter = nowPlayingAdapter
 
     }
@@ -96,7 +93,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     }
 
     override fun onNowPlayingPressed(banner: NowPlaying, position: Int) {
-        val action = HomeFragmentDirections.actionHomeFragmentToMovieDetail(banner.id)
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToMovieDetail(banner.id)
         findNavController().navigate(action)
     }
 

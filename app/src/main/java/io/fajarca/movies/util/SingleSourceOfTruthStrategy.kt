@@ -1,8 +1,9 @@
-package io.fajarca.movies.vo
+package io.fajarca.movies.util
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import io.fajarca.movies.vo.Result
 import kotlinx.coroutines.Dispatchers
 
 /**
@@ -35,7 +36,11 @@ fun <T, A> resultLiveData(
         if (responseStatus.status == Result.Status.SUCCESS) {
             saveCallResult(responseStatus.data!!)
         } else if (responseStatus.status == Result.Status.ERROR) {
-            emit(Result.error(responseStatus.message ?: "Unknown error", null))
+            emit(
+                Result.error(
+                    responseStatus.message ?: "Unknown error", null
+                )
+            )
             emitSource(mappedDbSource)
         }
     }

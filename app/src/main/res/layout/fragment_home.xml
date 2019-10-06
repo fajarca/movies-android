@@ -8,16 +8,16 @@
         <import type="android.view.View" />
         <variable
             name="vm"
-            type="io.fajarca.movies.ui.HomeViewModel" />
+            type="io.fajarca.movies.ui.home.HomeViewModel" />
         <variable
             name="fragment"
-            type="io.fajarca.movies.ui.HomeFragment" />
+            type="io.fajarca.movies.ui.home.HomeFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.HomeFragment">
+        tools:context=".ui.home.HomeFragment">
 
 
         <androidx.viewpager.widget.ViewPager
