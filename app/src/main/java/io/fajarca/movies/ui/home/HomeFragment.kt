@@ -89,7 +89,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     
     private fun refreshBanner(data: List<NowPlaying>) {
         nowPlayingAdapter.refreshNowPlaying(data)
-        viewPager.setCurrentItem(data.size / 2, true)
     }
 
     override fun onNowPlayingPressed(banner: NowPlaying, position: Int) {
