@@ -28,7 +28,7 @@ data class Movie(
 
     @SerializedName("backdrop_path")
     @ColumnInfo(name = "backdrop_path")
-    var backdropPath: String = "",
+    var backdropPath: String? = "",
 
     @SerializedName("poster_path")
     @ColumnInfo(name = "poster_path")
