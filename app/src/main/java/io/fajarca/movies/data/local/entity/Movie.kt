@@ -40,7 +40,7 @@ data class Movie(
 
     @SerializedName("popularity")
     @ColumnInfo(name = "popularity")
-    var popularity: Double = 0.0,
+    var popularity: Float = 0.0f,
 
     @SerializedName("vote_count")
     @ColumnInfo(name = "vote_count")
@@ -60,10 +60,5 @@ data class Movie(
 
     @SerializedName("release_date")
     @ColumnInfo(name = "release_date")
-    var releaseDate: String = "",
-
-    @Ignore
-    @SerializedName("genre_ids")
-    var genresId : List<Int> = emptyList()
-
+    var releaseDate: String = ""
 )

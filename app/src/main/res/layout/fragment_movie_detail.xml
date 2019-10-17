@@ -44,7 +44,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
                 tools:text="2019"
-                android:text="@{movie.releaseDate}"
+                app:toLocalizedDatetime="@{movie.releaseDate}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 

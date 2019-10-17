@@ -6,12 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
 import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.databinding.FragmentMovieDetailBinding
-import io.fajarca.movies.util.IMAGE_BASE_URL
 import io.fajarca.movies.vo.Result
 
 class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetailViewModel>() {
@@ -44,6 +42,7 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
                 }
                 Result.Status.SUCCESS -> {
                     binding.movie = it.data
+                    setupGenres(it.data)
                     binding.stateView.hideLoading()
 
                 }
@@ -51,4 +50,7 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         }
     }
 
+    private fun setupGenres(data: Movie?) {
+
+    }
 }

@@ -4,7 +4,7 @@ import io.fajarca.movies.vo.Result
 import retrofit2.Response
 import timber.log.Timber
 
-abstract class BaseDataSource {
+open class BaseDataSource {
 
     suspend fun <T> getResult(call : suspend () -> Response<T>) : Result<T> {
         try {

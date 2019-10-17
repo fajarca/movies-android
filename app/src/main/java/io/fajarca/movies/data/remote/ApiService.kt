@@ -2,6 +2,7 @@ package io.fajarca.movies.data.remote
 
 import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.data.local.entity.NowPlaying
+import io.fajarca.movies.data.remote.response.MovieDetailsResponse
 import io.fajarca.movies.data.remote.response.NowPlayingResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -21,5 +22,5 @@ interface ApiService {
     suspend fun movie(
         @Path("movieId") movieId : Long,
         @Query("language")  language : String = "en-US"
-    ) : Response<Movie>
+    ) : Response<MovieDetailsResponse>
 }

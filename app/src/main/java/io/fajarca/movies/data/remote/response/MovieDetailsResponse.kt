@@ -17,7 +17,7 @@ data class MovieDetailsResponse(
     @SerializedName("homepage")
     val homepage: String,
     @SerializedName("id")
-    val id: Int,
+    val id: Long,
     @SerializedName("imdb_id")
     val imdbId: String,
     @SerializedName("original_language")
@@ -27,7 +27,7 @@ data class MovieDetailsResponse(
     @SerializedName("overview")
     val overview: String,
     @SerializedName("popularity")
-    val popularity: Double,
+    val popularity: Float,
     @SerializedName("poster_path")
     val posterPath: String,
     @SerializedName("production_companies")
@@ -51,9 +51,9 @@ data class MovieDetailsResponse(
     @SerializedName("video")
     val video: Boolean,
     @SerializedName("vote_average")
-    val voteAverage: Double,
+    val voteAverage: Float,
     @SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Long
 )
 
 data class SpokenLanguage(

@@ -1,12 +1,24 @@
 package io.fajarca.movies.util.extensions
 
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Return number with a thousand separator on it
- */
-fun Long.addThousandSeparator() : String {
-    val formattedNumber = String.format(Locale.US,"%,02d", this).replace(',', '.')
-    val formattedNumberCommas = String.format(Locale.US,",00", this)
-    return "$formattedNumber$formattedNumberCommas"
+
+fun String?.toLocalizedDatetimeFormat(): String {
+    if (this.isNullOrEmpty()) return "-"
+
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+
+    try {
+
+        val date = dateFormat.parse(this)
+        return DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(date)
+
+    } catch (e: ParseException) {
+        e.printStackTrace()
+    }
+
+    return "-"
 }
