@@ -4,9 +4,9 @@ import io.fajarca.movies.vo.Result
 import retrofit2.Response
 import timber.log.Timber
 
-open class BaseDataSource {
+open class BaseRepository {
 
-    suspend fun <T> getResult(call : suspend () -> Response<T>) : Result<T> {
+    suspend fun <T> getApiResult(call : suspend () -> Response<T>) : Result<T> {
         try {
             val response = call()
             if (response.isSuccessful) {

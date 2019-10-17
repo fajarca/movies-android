@@ -1,7 +1,7 @@
 package io.fajarca.movies.data
 
 import androidx.lifecycle.LiveData
-import io.fajarca.movies.base.BaseDataSource
+import io.fajarca.movies.base.BaseRepository
 import io.fajarca.movies.data.local.dao.MovieDao
 import io.fajarca.movies.data.local.dao.NowPlayingDao
 import io.fajarca.movies.data.local.entity.Movie
@@ -14,29 +14,29 @@ import io.fajarca.movies.vo.Result
 import javax.inject.Inject
 
 class MoviesRepository @Inject constructor(
-    private val dao: NowPlayingDao,
+    private val nowPlayingDao: NowPlayingDao,
     private val movieDao : MovieDao,
     private val mapper: MovieDetailMapper,
     private val apiService: ApiService
-)  : BaseDataSource() {
+)  : BaseRepository() {
 
 
     fun fetchNowPlaying(): LiveData<Result<List<NowPlaying>>> {
         return object : NetworkBoundResources<List<NowPlaying>, NowPlayingResponse>() {
 
             override fun loadFromDb(): LiveData<List<NowPlaying>> {
-                return dao.findAllNowPlaying()
+                return nowPlayingDao.findAllNowPlaying()
             }
 
 
             override fun shouldFetch(data: List<NowPlaying>?): Boolean = true
 
             override suspend fun createCall(): Result<NowPlayingResponse> {
-                return getResult { apiService.nowPlaying() }
+                return getApiResult { apiService.nowPlaying() }
             }
 
             override suspend fun saveCallResult(response: NowPlayingResponse) {
-                dao.insertAll(response.results)
+                nowPlayingDao.insertAll(response.results)
             }
 
         }.asLiveData()
@@ -52,7 +52,7 @@ class MoviesRepository @Inject constructor(
            override fun shouldFetch(data: Movie?): Boolean = true
 
            override suspend fun createCall(): Result<MovieDetailsResponse> {
-               return getResult { apiService.movie(movieId) }
+               return getApiResult { apiService.movie(movieId) }
            }
 
            override suspend fun saveCallResult(response: MovieDetailsResponse) {
