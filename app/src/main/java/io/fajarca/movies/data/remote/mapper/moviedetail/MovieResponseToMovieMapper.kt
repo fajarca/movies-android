@@ -1,9 +1,10 @@
-package io.fajarca.movies.data.remote.mapper
+package io.fajarca.movies.data.remote.mapper.moviedetail
 
 import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.data.remote.mapper.Mapper
 import io.fajarca.movies.data.remote.response.MovieDetailsResponse
 
-class MovieDetailMapper : Mapper<MovieDetailsResponse, Movie>() {
+class MovieResponseToMovieMapper : Mapper<MovieDetailsResponse, Movie>() {
 
     override fun map(input: MovieDetailsResponse): Movie {
         return Movie(

@@ -85,7 +85,7 @@ data class ProductionCompany(
 
 data class Genre(
     @SerializedName("id")
-    val id: Int,
+    val id: Long,
     @SerializedName("name")
     val name: String
 )

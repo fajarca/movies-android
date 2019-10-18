@@ -2,13 +2,11 @@ package io.fajarca.movies.data
 
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.*
-import io.fajarca.movies.base.BaseDataSource
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import io.fajarca.movies.vo.Result
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 abstract class NetworkBoundResources<EntityData, ResponseData> {
 

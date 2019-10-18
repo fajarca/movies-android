@@ -3,7 +3,8 @@ package io.fajarca.movies.di.module
 import dagger.Module
 import dagger.Provides
 import io.fajarca.movies.data.local.MoviesDatabase
-import io.fajarca.movies.data.remote.mapper.MovieDetailMapper
+import io.fajarca.movies.data.remote.mapper.moviedetail.MovieResponseToCategoryMapper
+import io.fajarca.movies.data.remote.mapper.moviedetail.MovieResponseToMovieMapper
 import javax.inject.Singleton
 
 @Module
@@ -27,5 +28,10 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMovieDetailMapper() = MovieDetailMapper()
+    fun providesMovieResponseToMovieMapper()  = MovieResponseToMovieMapper()
+
+
+    @Provides
+    @Singleton
+    fun providesMovieResponseToCategoryMapper() = MovieResponseToCategoryMapper()
 }

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
-import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.data.local.join.MovieCategory
 import io.fajarca.movies.databinding.FragmentMovieDetailBinding
 import io.fajarca.movies.vo.Result
 
@@ -16,9 +16,13 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_movie_detail
     override fun getViewModelClass() = MovieDetailViewModel::class.java
-    private  var movieId = 0L
+    private var movieId = 0L
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         movieId = MovieDetailFragmentArgs.fromBundle(arguments!!).movieId
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -31,9 +35,9 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         vm.movieDetail.observe(this, Observer { subscribeMovieDetail(it) })
     }
 
-    private fun subscribeMovieDetail(it: Result<Movie>) {
+    private fun subscribeMovieDetail(it: Result<List<MovieCategory>>) {
         it.let {
-            when(it.status) {
+            when (it.status) {
                 Result.Status.LOADING -> {
                     binding.stateView.showLoading()
                 }
@@ -41,8 +45,7 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
                     binding.stateView.hideLoading()
                 }
                 Result.Status.SUCCESS -> {
-                    binding.movie = it.data
-                    setupGenres(it.data)
+                    displayMovieDetails(it.data)
                     binding.stateView.hideLoading()
 
                 }
@@ -50,7 +53,22 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         }
     }
 
-    private fun setupGenres(data: Movie?) {
+    private fun displayMovieDetails(data: List<MovieCategory>?) {
+        data?.let {
+            if (data.isNotEmpty()) {
+                binding.movie = data[0]
+                displayGenres(data)
+            }
+        }
+    }
+
+    private fun displayGenres(movieCategory: List<MovieCategory>) {
+        val genres = mutableListOf<String>()
+        movieCategory.forEach {
+            genres.add(it.categoryName)
+        }
+
 
     }
+
 }
