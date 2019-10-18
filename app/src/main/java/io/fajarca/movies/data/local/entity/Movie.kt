@@ -2,7 +2,6 @@ package io.fajarca.movies.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
@@ -16,7 +15,7 @@ data class Movie(
 
     @SerializedName("title")
     @ColumnInfo(name = "title")
-    var title : String = "",
+    var title: String = "",
 
     @SerializedName("original_title")
     @ColumnInfo(name = "original_title")
@@ -52,13 +51,17 @@ data class Movie(
 
     @SerializedName("video")
     @ColumnInfo(name = "video")
-    var video : Boolean = false,
+    var video: Boolean = false,
 
     @SerializedName("adult")
     @ColumnInfo(name = "adult")
-    var adult : Boolean = false,
+    var adult: Boolean = false,
 
     @SerializedName("release_date")
     @ColumnInfo(name = "release_date")
-    var releaseDate: String = ""
+    var releaseDate: String = "",
+
+    @SerializedName("runtime")
+    @ColumnInfo(name = "runtime")
+    var runtime: Int = 0
 )

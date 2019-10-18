@@ -56,17 +56,31 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
     private fun displayMovieDetails(data: List<MovieCategory>?) {
         data?.let {
             if (data.isNotEmpty()) {
-                binding.movie = data[0]
+                val movie = data[0]
+                binding.movie = movie
                 displayGenres(data)
+                binding.tvAdult.text = if (movie.adult) "17+" else "All Age"
+                binding.tvRuntime.text = "${movie.runtime} minutes"
             }
         }
+
+
     }
 
-    private fun displayGenres(movieCategory: List<MovieCategory>) {
-        val genres = mutableListOf<String>()
-        movieCategory.forEach {
-            genres.add(it.categoryName)
+    private fun displayGenres(movieWithCategories: List<MovieCategory>) {
+        var genres = ""
+
+        val size = movieWithCategories.size
+
+        for ((i, movie) in movieWithCategories.withIndex()) {
+            if (i == size -1 ) {
+                genres += movie.categoryName
+            } else {
+                genres += movie.categoryName + ", "
+            }
         }
+
+        binding.tvGenre.text = genres
 
 
     }

@@ -28,6 +28,9 @@ data class MovieCategory(
     @ColumnInfo(name = "release_date")
     val releaseDate : String,
 
+    @ColumnInfo(name = "runtime")
+    val runtime : String,
+
     @ColumnInfo(name = "category_id")
     val categoryId : Long,
 

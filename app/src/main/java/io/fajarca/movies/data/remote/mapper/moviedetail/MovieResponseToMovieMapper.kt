@@ -20,7 +20,8 @@ class MovieResponseToMovieMapper : Mapper<MovieDetailsResponse, Movie>() {
             input.voteAverage,
             input.video,
             input.adult,
-            input.releaseDate
+            input.releaseDate,
+            input.runtime
         )
     }
 
