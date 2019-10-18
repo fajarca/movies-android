@@ -55,7 +55,7 @@ class MoviesRepository @Inject constructor(
 
 
             override fun loadFromDb(): LiveData<List<MovieCategory>> {
-                return movieCategoryDao.findAllMovieWithCategory(movieId)
+                return movieCategoryDao.findMovieWithCategory(movieId)
             }
 
             override fun shouldFetch(data: List<MovieCategory>?): Boolean = true

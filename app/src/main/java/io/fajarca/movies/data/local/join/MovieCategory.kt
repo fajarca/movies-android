@@ -1,9 +1,6 @@
 package io.fajarca.movies.data.local.join
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import io.fajarca.movies.data.local.entity.Category
-import io.fajarca.movies.data.local.entity.Movie
 
 data class MovieCategory(
 
