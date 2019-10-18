@@ -1,24 +1,12 @@
 package io.fajarca.movies.ui.home
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.viewpager.widget.PagerAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import io.fajarca.movies.R
 import io.fajarca.movies.data.local.entity.NowPlaying
-import io.fajarca.movies.util.IMAGE_BASE_URL
+import io.fajarca.movies.databinding.ItemNowPlayingBinding
 
 class NowPlayingPagerAdapter(var nowPlayings: List<NowPlaying>, val context: Context, var listener: onNowPlayingPressedListener) :
     PagerAdapter() {
@@ -35,44 +23,19 @@ class NowPlayingPagerAdapter(var nowPlayings: List<NowPlaying>, val context: Con
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_now_playing, container, false)
 
-        val ivPoster = view.findViewById<ImageView>(R.id.ivPoster)
-        val cardView = view.findViewById<CardView>(R.id.cardViewBanner)
-        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
-        val posterImage = IMAGE_BASE_URL+nowPlayings[position].backdropPath
-        val tvTitle = view.findViewById<TextView>(R.id.tvTitle)
-        val tvCounter = view.findViewById<TextView>(R.id.tvCounter)
+        val binding = ItemNowPlayingBinding.inflate(LayoutInflater.from(context), container, false)
 
-        tvTitle.text = nowPlayings[position].originalTitle
-        tvCounter.text = "${position}/${nowPlayings.size}"
+        binding.nowPlaying = nowPlayings[position]
 
-        val options = RequestOptions
-            .fitCenterTransform()
-
-        Glide.with(context)
-            .load(posterImage)
-            .apply(options)
-            .listener(object : RequestListener<Drawable>{
-                override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                    progressBar.visibility = View.INVISIBLE
-                    return false
-                }
-
-                override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
-                    progressBar.visibility = View.INVISIBLE
-                    return false
-                }
-            })
-            .into(ivPoster)
-
-        cardView.setOnClickListener {
+        binding.tvCounter.text = "${position + 1}/${nowPlayings.size}"
+        binding.cardViewBanner.setOnClickListener {
             listener.onNowPlayingPressed(nowPlayings[position], position)
         }
 
-        container.addView(view)
+        container.addView(binding.root)
 
-        return view
+        return binding.root
     }
 
     fun refreshNowPlaying(nowPlayings: List<NowPlaying>) {
