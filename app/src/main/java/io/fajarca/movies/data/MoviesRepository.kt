@@ -1,31 +1,72 @@
 package io.fajarca.movies.data
 
 import androidx.lifecycle.LiveData
-import io.fajarca.movies.data.remote.ApiResponse
-import io.fajarca.movies.data.remote.ApiService
-import io.fajarca.movies.data.remote.NetworkBoundResource
-import io.fajarca.movies.vo.Resource
+import io.fajarca.movies.base.BaseRepository
+import io.fajarca.movies.data.local.dao.CategoryDao
+import io.fajarca.movies.data.local.dao.MovieCategoryDao
 import io.fajarca.movies.data.local.dao.MovieDao
-import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.data.local.dao.NowPlayingDao
+import io.fajarca.movies.data.local.entity.MovieCategoryJoin
+import io.fajarca.movies.data.local.entity.NowPlaying
+import io.fajarca.movies.data.local.join.MovieCategory
+import io.fajarca.movies.data.remote.ApiService
+import io.fajarca.movies.data.remote.mapper.moviedetail.MovieResponseToCategoryMapper
+import io.fajarca.movies.data.remote.mapper.moviedetail.MovieResponseToMovieMapper
+import io.fajarca.movies.data.remote.response.MovieDetailsResponse
 import io.fajarca.movies.data.remote.response.NowPlayingResponse
+import io.fajarca.movies.vo.Result
 import javax.inject.Inject
 
 class MoviesRepository @Inject constructor(
-    private val apiService: ApiService,
-    private val dao: MovieDao
-) {
+    private val nowPlayingDao: NowPlayingDao,
+    private val movieDao: MovieDao,
+    private val categoryDao: CategoryDao,
+    private val movieCategoryDao: MovieCategoryDao,
+    private val mapper: MovieResponseToMovieMapper,
+    private val movieToCategoryMapper: MovieResponseToCategoryMapper,
+    private val apiService: ApiService
+) : BaseRepository() {
 
-    fun getNowPlaying(language : String) : LiveData<Resource<List<Movie>>> {
+    fun fetchNowPlaying(): LiveData<Result<List<NowPlaying>>> {
+        return object : NetworkBoundResources<List<NowPlaying>, NowPlayingResponse>() {
 
-        return object : NetworkBoundResource<List<Movie>, NowPlayingResponse>() {
-            override fun saveCallResult(item: NowPlayingResponse) = dao.insertAll(item.results)
-            override fun shouldFetch(data: List<Movie>): Boolean = true
-            override fun loadFromDb(): LiveData<List<Movie>> = dao.findAllNowPlaying()
-            override fun createCall(): LiveData<ApiResponse<NowPlayingResponse>> = apiService.nowPlaying(language = language)
+            override fun loadFromDb(): LiveData<List<NowPlaying>> {
+                return nowPlayingDao.findAllNowPlaying()
+            }
 
+            override fun shouldFetch(data: List<NowPlaying>?): Boolean = true
+
+            override suspend fun createCall(): Result<NowPlayingResponse> {
+                return getApiResult { apiService.nowPlaying() }
+            }
+
+            override suspend fun saveCallResult(response: NowPlayingResponse) {
+                nowPlayingDao.insertAll(response.results)
+            }
         }.asLiveData()
-
     }
 
+    fun fetchMovieDetail(movieId: Long): LiveData<Result<List<MovieCategory>>> {
 
+        return object : NetworkBoundResources<List<MovieCategory>, MovieDetailsResponse>() {
+
+            override fun loadFromDb(): LiveData<List<MovieCategory>> {
+                return movieCategoryDao.findMovieWithCategory(movieId)
+            }
+
+            override fun shouldFetch(data: List<MovieCategory>?): Boolean = true
+
+            override suspend fun createCall(): Result<MovieDetailsResponse> {
+                return getApiResult { apiService.movie(movieId) }
+            }
+
+            override suspend fun saveCallResult(response: MovieDetailsResponse) {
+                movieDao.insert(mapper.map(response))
+                categoryDao.insertAll(movieToCategoryMapper.map(response))
+                response.genres.forEach {
+                    movieCategoryDao.insert(MovieCategoryJoin(response.id, it.id))
+                }
+            }
+        }.asLiveData()
+    }
 }

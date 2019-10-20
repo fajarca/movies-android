@@ -21,7 +21,6 @@ class MoviesApp : Application(), HasActivityInjector {
                 .inject(this)
 
         initTimber()
-
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = activityInjector

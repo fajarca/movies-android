@@ -1,22 +1,20 @@
-package io.fajarca.movies.ui
+package io.fajarca.movies.ui.home
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
-import io.fajarca.movies.vo.Resource
-import io.fajarca.movies.vo.Status
+import io.fajarca.movies.data.local.entity.NowPlaying
 import io.fajarca.movies.databinding.FragmentHomeBinding
-import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.util.extensions.plusAssign
+import io.fajarca.movies.vo.Result
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
-
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     NowPlayingPagerAdapter.onNowPlayingPressedListener {
@@ -31,34 +29,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     private lateinit var viewPager: ViewPager
     private lateinit var nowPlayingAdapter: NowPlayingPagerAdapter
     private val compositeDisposable = CompositeDisposable()
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initNowPlayingBanner()
+        initBannerSwipeScheduler()
 
-
-
-        vm.initData("en-US")
-        vm.nowPlaying.observe(this, Observer { data -> setupNowPlaying(data) })
-
+        vm.nowPlaying.observe(this, Observer { data -> subscribeNowPlaying(data) })
     }
 
-    private fun setupNowPlaying(data: Resource<List<Movie>>?) {
+    private fun subscribeNowPlaying(data: Result<List<NowPlaying>>?) {
         data?.let {
-            when(it.status) {
-                Status.LOADING -> {
-                    Timber.v("[Now playing] : Loading")
+            when (it.status) {
+                Result.Status.LOADING -> {
+                    binding.stateView.showLoading()
                 }
-                Status.ERROR -> {
-                    Timber.v("[Now playing] : Error}")
+                Result.Status.ERROR -> {
+                    binding.stateView.hideLoading()
                 }
-                Status.SUCCESS -> {
-                    val data = it.data ?: emptyList()
-                    refreshBanner(data)
-                }
-                else -> {
-
+                Result.Status.SUCCESS -> {
+                    binding.stateView.hideLoading()
+                    refreshBanner(it.data ?: emptyList())
                 }
             }
         }
@@ -76,7 +68,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
                     viewPager.setCurrentItem(0, true)
                 }
             }
-
     }
     private fun initNowPlayingBanner() {
         viewPager = binding.viewpager.apply {
@@ -86,18 +77,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
             offscreenPageLimit = 3
         }
 
-        nowPlayingAdapter = NowPlayingPagerAdapter(emptyList(), requireActivity(), this)
+        nowPlayingAdapter =
+            NowPlayingPagerAdapter(emptyList(), requireActivity(), this)
         viewPager.adapter = nowPlayingAdapter
-
     }
-    
-    private fun refreshBanner(data: List<Movie>) {
+
+    private fun refreshBanner(data: List<NowPlaying>) {
         nowPlayingAdapter.refreshNowPlaying(data)
-        viewPager.setCurrentItem(data.size / 2, true)
     }
 
-    override fun onNowPlayingPressed(banner: Movie, position: Int) {
-
+    override fun onNowPlayingPressed(banner: NowPlaying, position: Int) {
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToMovieDetail(banner.id)
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {

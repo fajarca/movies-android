@@ -1,6 +1,5 @@
 package io.fajarca.movies.base
 
-
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +17,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-
 abstract class BaseFragment<B : ViewDataBinding, V : ViewModel> : Fragment() {
 
     @Inject
@@ -30,7 +28,6 @@ abstract class BaseFragment<B : ViewDataBinding, V : ViewModel> : Fragment() {
         get() = mViewDataBinding
     val vm: V
         get() = mViewModel
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(getViewModelClass())
@@ -57,6 +54,6 @@ abstract class BaseFragment<B : ViewDataBinding, V : ViewModel> : Fragment() {
         binding.setVariable(BR.fragment, this)
     }
 
-    fun snackbar(message : String) = Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
-    fun longSnackbar(message : String) = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    fun snackbar(message: String) = Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    fun longSnackbar(message: String) = Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
 }

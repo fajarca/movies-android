@@ -7,5 +7,5 @@ import io.fajarca.movies.MainActivity
 @Module
 abstract class ActivityBuilder {
     @ContributesAndroidInjector
-    abstract fun bindMainActivity (): MainActivity
+    abstract fun bindMainActivity(): MainActivity
 }
