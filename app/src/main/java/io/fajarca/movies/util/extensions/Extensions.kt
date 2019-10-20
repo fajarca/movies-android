@@ -18,5 +18,5 @@ fun String?.toLocalizedDatetimeFormat(): String {
         e.printStackTrace()
     }
 
-    return "-"
+    return ""
 }

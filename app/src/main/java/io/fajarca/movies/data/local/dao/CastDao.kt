@@ -1,24 +1,32 @@
 package io.fajarca.movies.data.local.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import io.fajarca.movies.data.local.entity.Cast
-import io.fajarca.movies.data.local.entity.Movie
 
 @Dao
-interface CastDao {
+abstract class CastDao {
 
     @Query("SELECT * FROM casts WHERE movie_id =:movieId")
-    fun findAll(movieId: Long): LiveData<List<Cast>>
+    abstract fun findAll(movieId: Long): LiveData<List<Cast>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(cast: Cast)
+    abstract suspend fun insert(cast: Cast)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(casts: List<Cast>)
+    abstract suspend fun insertAll(casts: List<Cast>)
+
+    @Query("DELETE FROM casts WHERE movie_id =:movieId")
+    abstract fun deleteById(movieId: Long)
+
+    /**
+     * Execute multiple queries in single transaction
+     */
+    @Transaction
+    open suspend fun deleteAndInsertTransaction(movieId: Long, casts: List<Cast>) {
+        deleteById(movieId)
+        insertAll(casts)
+    }
 
 
 }

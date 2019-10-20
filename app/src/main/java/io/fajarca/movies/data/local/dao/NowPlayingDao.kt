@@ -8,11 +8,11 @@ import androidx.room.Query
 import io.fajarca.movies.data.local.entity.NowPlaying
 
 @Dao
-interface NowPlayingDao {
+abstract class NowPlayingDao {
 
     @Query("SELECT * FROM now_playings ORDER BY release_date DESC")
-    fun findAllNowPlaying(): LiveData<List<NowPlaying>>
+    abstract fun findAllNowPlaying(): LiveData<List<NowPlaying>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(nowPlayings: List<NowPlaying>)
+    abstract suspend fun insertAll(nowPlayings: List<NowPlaying>)
 }

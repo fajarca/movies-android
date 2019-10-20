@@ -87,7 +87,7 @@ class MoviesRepository @Inject constructor(
                 response.cast.forEach {
                     casts.add(Cast(movieId, it.id, it.character ?: "", it.creditId ?: "", it.name ?: "", it.profilePath ?: ""))
                 }
-                castDao.insertAll(casts)
+                castDao.deleteAndInsertTransaction(movieId, casts)
             }
 
         }.asLiveData()

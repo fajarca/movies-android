@@ -59,10 +59,9 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_component_version"
 
     //Room
-    implementation "androidx.room:room-runtime:$persistence_component_version"
-    implementation "androidx.room:room-coroutines:$persistence_component_version"
-    kapt "androidx.room:room-compiler:$persistence_component_version"
-
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 
     //Lifecycle aware component
     // ViewModel and LiveData

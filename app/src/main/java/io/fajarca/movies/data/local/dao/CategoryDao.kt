@@ -6,8 +6,8 @@ import androidx.room.OnConflictStrategy
 import io.fajarca.movies.data.local.entity.Category
 
 @Dao
-interface CategoryDao {
+abstract class CategoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(categories: List<Category>)
+    abstract suspend fun insertAll(categories: List<Category>)
 }
