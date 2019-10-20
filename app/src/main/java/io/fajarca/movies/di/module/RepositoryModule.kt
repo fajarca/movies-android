@@ -24,6 +24,10 @@ class RepositoryModule {
 
     @Provides
     @Singleton
+    fun provideCastDao(db: MoviesDatabase) = db.castDao()
+
+    @Provides
+    @Singleton
     fun provideMovieCategoryJoinDao(db: MoviesDatabase) = db.movieCategoryDao()
 
     @Provides

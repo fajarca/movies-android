@@ -27,6 +27,25 @@ fun loadImage(view: ImageView, imageUrl: String?) {
         .into(view)
 }
 
+
+@BindingAdapter("loadPortraitImage")
+fun loadPortraitImage(view: ImageView, imageUrl: String?) {
+    if (imageUrl.isNullOrEmpty()) return
+
+    val url = IMAGE_BASE_URL_200 + imageUrl
+
+    val requestOptions = RequestOptions()
+        .placeholder(R.drawable.ic_placeholder)
+        .centerCrop()
+
+    Glide.with(view.context)
+        .load(url)
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .thumbnail(0.2f)
+        .apply(requestOptions)
+        .into(view)
+}
+
 @BindingAdapter("toLocalizedDatetime")
 fun toLocalizedDatetimeFormat(view: TextView, date: String?) {
     view.text = date.toLocalizedDatetimeFormat()

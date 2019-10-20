@@ -2,16 +2,15 @@ package io.fajarca.movies.data
 
 import androidx.lifecycle.LiveData
 import io.fajarca.movies.base.BaseRepository
-import io.fajarca.movies.data.local.dao.CategoryDao
-import io.fajarca.movies.data.local.dao.MovieCategoryDao
-import io.fajarca.movies.data.local.dao.MovieDao
-import io.fajarca.movies.data.local.dao.NowPlayingDao
+import io.fajarca.movies.data.local.dao.*
+import io.fajarca.movies.data.local.entity.Cast
 import io.fajarca.movies.data.local.entity.MovieCategoryJoin
 import io.fajarca.movies.data.local.entity.NowPlaying
 import io.fajarca.movies.data.local.join.MovieCategory
 import io.fajarca.movies.data.remote.ApiService
 import io.fajarca.movies.data.remote.mapper.moviedetail.MovieResponseToCategoryMapper
 import io.fajarca.movies.data.remote.mapper.moviedetail.MovieResponseToMovieMapper
+import io.fajarca.movies.data.remote.response.CastResponse
 import io.fajarca.movies.data.remote.response.MovieDetailsResponse
 import io.fajarca.movies.data.remote.response.NowPlayingResponse
 import io.fajarca.movies.vo.Result
@@ -22,6 +21,7 @@ class MoviesRepository @Inject constructor(
     private val movieDao: MovieDao,
     private val categoryDao: CategoryDao,
     private val movieCategoryDao: MovieCategoryDao,
+    private val castDao : CastDao,
     private val mapper: MovieResponseToMovieMapper,
     private val movieToCategoryMapper: MovieResponseToCategoryMapper,
     private val apiService: ApiService
@@ -67,6 +67,29 @@ class MoviesRepository @Inject constructor(
                     movieCategoryDao.insert(MovieCategoryJoin(response.id, it.id))
                 }
             }
+        }.asLiveData()
+    }
+
+    fun fetchCasts(movieId: Long) : LiveData<Result<List<Cast>>> {
+        return object : NetworkBoundResources<List<Cast>, CastResponse>() {
+            override fun loadFromDb(): LiveData<List<Cast>> {
+                return castDao.findAll(movieId)
+            }
+
+            override fun shouldFetch(data: List<Cast>?) = true
+
+            override suspend fun createCall(): Result<CastResponse> {
+                return getApiResult { apiService.cast(movieId) }
+            }
+
+            override suspend fun saveCallResult(response: CastResponse) {
+                val casts = mutableListOf<Cast>()
+                response.cast.forEach {
+                    casts.add(Cast(movieId, it.id, it.character ?: "", it.creditId ?: "", it.name ?: "", it.profilePath ?: ""))
+                }
+                castDao.insertAll(casts)
+            }
+
         }.asLiveData()
     }
 }
