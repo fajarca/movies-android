@@ -23,7 +23,7 @@ abstract class CastDao {
      * Execute multiple queries in single transaction
      */
     @Transaction
-    open suspend fun deleteAndInsertTransaction(movieId: Long, casts: List<Cast>) {
+    open suspend fun deleteAndInsertInTransaction(movieId: Long, casts: List<Cast>) {
         deleteById(movieId)
         insertAll(casts)
     }
