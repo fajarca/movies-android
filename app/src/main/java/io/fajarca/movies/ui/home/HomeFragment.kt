@@ -29,6 +29,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     private lateinit var viewPager: ViewPager
     private lateinit var nowPlayingAdapter: NowPlayingPagerAdapter
     private val compositeDisposable = CompositeDisposable()
+    private var lastNowPlayingPosition = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,10 +61,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
         compositeDisposable += Observable.interval(SWIPE_INTERVAL, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                val currentViewpagerPosition = viewPager.currentItem
+                lastNowPlayingPosition = viewPager.currentItem
                 val headlineBannerSize = nowPlayingAdapter.count
-                if (currentViewpagerPosition < headlineBannerSize - 1) {
-                    viewPager.setCurrentItem(currentViewpagerPosition + 1, true)
+                if (lastNowPlayingPosition < headlineBannerSize - 1) {
+                    viewPager.setCurrentItem(lastNowPlayingPosition + 1, true)
                 } else {
                     viewPager.setCurrentItem(0, true)
                 }
@@ -84,6 +85,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
 
     private fun refreshBanner(data: List<NowPlaying>) {
         nowPlayingAdapter.refreshNowPlaying(data)
+        viewPager.currentItem = lastNowPlayingPosition + 1
     }
 
     override fun onNowPlayingPressed(banner: NowPlaying, position: Int) {
@@ -95,5 +97,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.dispose()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        compositeDisposable.clear()
     }
 }
