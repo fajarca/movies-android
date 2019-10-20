@@ -20,13 +20,12 @@ import javax.inject.Inject
 class MoviesRepository @Inject constructor(
     private val nowPlayingDao: NowPlayingDao,
     private val movieDao: MovieDao,
-    private val categoryDao : CategoryDao,
+    private val categoryDao: CategoryDao,
     private val movieCategoryDao: MovieCategoryDao,
     private val mapper: MovieResponseToMovieMapper,
-    private val movieToCategoryMapper : MovieResponseToCategoryMapper,
+    private val movieToCategoryMapper: MovieResponseToCategoryMapper,
     private val apiService: ApiService
 ) : BaseRepository() {
-
 
     fun fetchNowPlaying(): LiveData<Result<List<NowPlaying>>> {
         return object : NetworkBoundResources<List<NowPlaying>, NowPlayingResponse>() {
@@ -34,7 +33,6 @@ class MoviesRepository @Inject constructor(
             override fun loadFromDb(): LiveData<List<NowPlaying>> {
                 return nowPlayingDao.findAllNowPlaying()
             }
-
 
             override fun shouldFetch(data: List<NowPlaying>?): Boolean = true
 
@@ -45,14 +43,12 @@ class MoviesRepository @Inject constructor(
             override suspend fun saveCallResult(response: NowPlayingResponse) {
                 nowPlayingDao.insertAll(response.results)
             }
-
         }.asLiveData()
     }
 
     fun fetchMovieDetail(movieId: Long): LiveData<Result<List<MovieCategory>>> {
 
         return object : NetworkBoundResources<List<MovieCategory>, MovieDetailsResponse>() {
-
 
             override fun loadFromDb(): LiveData<List<MovieCategory>> {
                 return movieCategoryDao.findMovieWithCategory(movieId)
@@ -70,11 +66,7 @@ class MoviesRepository @Inject constructor(
                 response.genres.forEach {
                     movieCategoryDao.insert(MovieCategoryJoin(response.id, it.id))
                 }
-
             }
-
-
         }.asLiveData()
     }
-
 }

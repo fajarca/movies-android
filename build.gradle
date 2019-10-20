@@ -24,16 +24,22 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
         
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:$navigation_component_gradle_plugin_version"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:7.1.0"
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
+
 
 allprojects {
     repositories {
@@ -41,6 +47,7 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
     }
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
 }
 
 task clean(type: Delete) {

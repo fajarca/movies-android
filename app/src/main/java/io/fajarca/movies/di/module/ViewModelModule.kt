@@ -14,16 +14,15 @@ import io.fajarca.movies.ui.moviedetail.MovieDetailViewModel
 abstract class ViewModelModule {
 
     @Binds
-    internal abstract fun bindViewModelFactory(factory : ViewModelFactory) : ViewModelProvider.Factory
+    internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
     @Binds
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
-    internal abstract fun providesHomeViewModel(viewModel : HomeViewModel) : ViewModel
+    internal abstract fun providesHomeViewModel(viewModel: HomeViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(MovieDetailViewModel::class)
-    internal abstract fun providesMovieDetailViewModel(viewModel : MovieDetailViewModel) : ViewModel
-
+    internal abstract fun providesMovieDetailViewModel(viewModel: MovieDetailViewModel): ViewModel
 }

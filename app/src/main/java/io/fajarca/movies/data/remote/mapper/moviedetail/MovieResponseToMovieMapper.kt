@@ -24,5 +24,4 @@ class MovieResponseToMovieMapper : Mapper<MovieDetailsResponse, Movie>() {
             input.runtime
         )
     }
-
 }

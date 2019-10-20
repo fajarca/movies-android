@@ -11,7 +11,6 @@ abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract fun contributesHomeFragment(): HomeFragment
 
-
     @ContributesAndroidInjector
     abstract fun contributesMovieDetailFragment(): MovieDetailFragment
 }

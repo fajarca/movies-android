@@ -40,9 +40,6 @@ abstract class NetworkBoundResources<EntityData, ResponseData> {
                 emit(Result.error(response.message ?: "Unknown error", null))
                 emitSource(mappedDbSource)
             }
-
         }
-
     }
-
 }

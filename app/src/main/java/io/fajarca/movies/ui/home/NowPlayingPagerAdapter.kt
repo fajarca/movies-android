@@ -43,9 +43,7 @@ class NowPlayingPagerAdapter(var nowPlayings: List<NowPlaying>, val context: Con
         notifyDataSetChanged()
     }
 
-
     interface onNowPlayingPressedListener {
         fun onNowPlayingPressed(banner: NowPlaying, position: Int)
     }
-
 }

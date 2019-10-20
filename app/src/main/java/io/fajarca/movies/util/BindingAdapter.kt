@@ -10,7 +10,7 @@ import io.fajarca.movies.R
 import io.fajarca.movies.util.extensions.toLocalizedDatetimeFormat
 
 @BindingAdapter("loadImage")
-fun loadImage(view : ImageView, imageUrl : String?) {
+fun loadImage(view: ImageView, imageUrl: String?) {
     if (imageUrl.isNullOrEmpty()) return
 
     val url = IMAGE_BASE_URL + imageUrl
@@ -28,6 +28,6 @@ fun loadImage(view : ImageView, imageUrl : String?) {
 }
 
 @BindingAdapter("toLocalizedDatetime")
-fun toLocalizedDatetimeFormat(view : TextView, date : String?) {
+fun toLocalizedDatetimeFormat(view: TextView, date: String?) {
     view.text = date.toLocalizedDatetimeFormat()
 }

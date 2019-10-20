@@ -16,7 +16,7 @@ data class NowPlaying(
 
     @SerializedName("title")
     @ColumnInfo(name = "title")
-    var title : String = "",
+    var title: String = "",
 
     @SerializedName("original_title")
     @ColumnInfo(name = "original_title")
@@ -52,11 +52,11 @@ data class NowPlaying(
 
     @SerializedName("video")
     @ColumnInfo(name = "video")
-    var video : Boolean = false,
+    var video: Boolean = false,
 
     @SerializedName("adult")
     @ColumnInfo(name = "adult")
-    var adult : Boolean = false,
+    var adult: Boolean = false,
 
     @SerializedName("release_date")
     @ColumnInfo(name = "release_date")
@@ -64,6 +64,6 @@ data class NowPlaying(
 
     @Ignore
     @SerializedName("genre_ids")
-    var genresId : List<Int> = emptyList()
+    var genresId: List<Int> = emptyList()
 
 )

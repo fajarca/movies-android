@@ -4,7 +4,12 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import io.fajarca.movies.MoviesApp
-import io.fajarca.movies.di.module.*
+import io.fajarca.movies.di.module.ActivityBuilder
+import io.fajarca.movies.di.module.AppModule
+import io.fajarca.movies.di.module.NetworkModule
+import io.fajarca.movies.di.module.RepositoryModule
+import io.fajarca.movies.di.module.FragmentModule
+import io.fajarca.movies.di.module.ViewModelModule
 import javax.inject.Singleton
 
 @Singleton

@@ -1,6 +1,5 @@
 package io.fajarca.movies.ui.moviedetail
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,7 +46,6 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
                 Result.Status.SUCCESS -> {
                     displayMovieDetails(it.data)
                     binding.stateView.hideLoading()
-
                 }
             }
         }
@@ -63,8 +61,6 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
                 binding.tvRuntime.text = "${movie.runtime} minutes"
             }
         }
-
-
     }
 
     private fun displayGenres(movieWithCategories: List<MovieCategory>) {
@@ -73,7 +69,7 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         val size = movieWithCategories.size
 
         for ((i, movie) in movieWithCategories.withIndex()) {
-            if (i == size -1 ) {
+            if (i == size - 1) {
                 genres += movie.categoryName
             } else {
                 genres += movie.categoryName + ", "
@@ -81,8 +77,5 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         }
 
         binding.tvGenre.text = genres
-
-
     }
-
 }

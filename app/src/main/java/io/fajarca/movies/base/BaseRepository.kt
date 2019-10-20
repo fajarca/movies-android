@@ -6,7 +6,7 @@ import timber.log.Timber
 
 open class BaseRepository {
 
-    suspend fun <T> getApiResult(call : suspend () -> Response<T>) : Result<T> {
+    suspend fun <T> getApiResult(call: suspend () -> Response<T>): Result<T> {
         try {
             val response = call()
             if (response.isSuccessful) {
@@ -15,15 +15,14 @@ open class BaseRepository {
                 if (body != null) {
                     return Result.success(body)
                 }
-
             }
             return error("${response.code()} ${response.message()}")
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             return error(e.message ?: e.toString())
         }
     }
 
-    private fun <T> error(message : String) : Result<T> {
+    private fun <T> error(message: String): Result<T> {
         Timber.e(message)
         return Result.error("Network call has failed for a following reason : $message", null)
     }

@@ -1,6 +1,5 @@
 package io.fajarca.movies.data.remote.response
 
-
 import com.google.gson.annotations.SerializedName
 import io.fajarca.movies.data.local.entity.NowPlaying
 

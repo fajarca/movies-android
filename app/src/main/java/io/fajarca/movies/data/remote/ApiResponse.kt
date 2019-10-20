@@ -11,16 +11,16 @@ import java.util.regex.Pattern
 sealed class ApiResponse<T> {
     companion object {
 
-        fun <T> create (error : Throwable) : ApiErrorResponse<T> {
+        fun <T> create(error: Throwable): ApiErrorResponse<T> {
             return ApiErrorResponse(error.message ?: "Unknown error")
         }
 
-        fun <T> create (response : Response<T>) : ApiResponse<T> {
+        fun <T> create(response: Response<T>): ApiResponse<T> {
             return if (response.isSuccessful) {
 
                 val body = response.body()
 
-                //Check for null or empty response
+                // Check for null or empty response
                 if (body == null || response.code() == 204) {
                     ApiEmptyResponse()
                 } else {
@@ -29,10 +29,9 @@ sealed class ApiResponse<T> {
                         response.headers().get("link")
                     )
                 }
-
             } else {
 
-                //Response is unsuccessful
+                // Response is unsuccessful
 
                 val msg = response.errorBody()?.string()
                 val errorMessage = if (msg.isNullOrEmpty()) {
@@ -42,10 +41,7 @@ sealed class ApiResponse<T> {
                 }
 
                 ApiErrorResponse(errorMessage ?: "Unknown error")
-
             }
-
-
         }
     }
 }
@@ -57,10 +53,9 @@ class ApiEmptyResponse<T> : ApiResponse<T>()
 
 data class ApiErrorResponse<T>(val errorMessage: String) : ApiResponse<T>()
 
-data class ApiSuccessResponse<T>(val body : T, val links : Map<String, String>) : ApiResponse<T>() {
+data class ApiSuccessResponse<T>(val body: T, val links: Map<String, String>) : ApiResponse<T>() {
 
-
-    constructor(body : T, linkHeader : String?) : this(body, linkHeader?.extractLinks() ?: emptyMap())
+    constructor(body: T, linkHeader: String?) : this(body, linkHeader?.extractLinks() ?: emptyMap())
 
     val nextPage: Int? by lazy(LazyThreadSafetyMode.NONE) {
         links[NEXT_LINK]?.let { next ->
@@ -95,8 +90,5 @@ data class ApiSuccessResponse<T>(val body : T, val links : Map<String, String>) 
             }
             return links
         }
-
     }
-
-
 }

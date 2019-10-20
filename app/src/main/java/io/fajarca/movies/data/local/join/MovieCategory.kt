@@ -5,35 +5,35 @@ import androidx.room.ColumnInfo
 data class MovieCategory(
 
     @ColumnInfo(name = "movie_id")
-    val movieId : Long,
+    val movieId: Long,
 
     @ColumnInfo(name = "title")
-    val title : String,
+    val title: String,
 
     @ColumnInfo(name = "overview")
-    val overview : String,
+    val overview: String,
 
     @ColumnInfo(name = "backdrop_path")
-    val backdropPath : String,
+    val backdropPath: String,
 
     @ColumnInfo(name = "poster_path")
-    val posterPath : String,
+    val posterPath: String,
 
     @ColumnInfo(name = "video")
-    val video : Boolean,
+    val video: Boolean,
 
     @ColumnInfo(name = "adult")
-    val adult : Boolean,
+    val adult: Boolean,
 
     @ColumnInfo(name = "release_date")
-    val releaseDate : String,
+    val releaseDate: String,
 
     @ColumnInfo(name = "runtime")
-    val runtime : String,
+    val runtime: String,
 
     @ColumnInfo(name = "category_id")
-    val categoryId : Long,
+    val categoryId: Long,
 
     @ColumnInfo(name = "category_name")
-    val categoryName : String
+    val categoryName: String
 )

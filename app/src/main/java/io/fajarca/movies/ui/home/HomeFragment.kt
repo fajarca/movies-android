@@ -16,7 +16,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import java.util.concurrent.TimeUnit
 
-
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     NowPlayingPagerAdapter.onNowPlayingPressedListener {
 
@@ -30,7 +29,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     private lateinit var viewPager: ViewPager
     private lateinit var nowPlayingAdapter: NowPlayingPagerAdapter
     private val compositeDisposable = CompositeDisposable()
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -38,13 +37,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
         initBannerSwipeScheduler()
 
         vm.nowPlaying.observe(this, Observer { data -> subscribeNowPlaying(data) })
-
-
     }
-    
+
     private fun subscribeNowPlaying(data: Result<List<NowPlaying>>?) {
         data?.let {
-            when(it.status) {
+            when (it.status) {
                 Result.Status.LOADING -> {
                     binding.stateView.showLoading()
                 }
@@ -71,7 +68,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
                     viewPager.setCurrentItem(0, true)
                 }
             }
-
     }
     private fun initNowPlayingBanner() {
         viewPager = binding.viewpager.apply {
@@ -84,9 +80,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
         nowPlayingAdapter =
             NowPlayingPagerAdapter(emptyList(), requireActivity(), this)
         viewPager.adapter = nowPlayingAdapter
-
     }
-    
+
     private fun refreshBanner(data: List<NowPlaying>) {
         nowPlayingAdapter.refreshNowPlaying(data)
     }

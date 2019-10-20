@@ -9,5 +9,5 @@ import io.fajarca.movies.data.local.entity.Category
 interface CategoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(categories : List<Category>)
+    suspend fun insertAll(categories: List<Category>)
 }

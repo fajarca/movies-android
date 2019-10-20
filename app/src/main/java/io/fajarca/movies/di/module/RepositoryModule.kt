@@ -16,7 +16,7 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMovieDao(db : MoviesDatabase) = db.movieDao()
+    fun provideMovieDao(db: MoviesDatabase) = db.movieDao()
 
     @Provides
     @Singleton
@@ -24,12 +24,11 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMovieCategoryJoinDao(db : MoviesDatabase) = db.movieCategoryDao()
+    fun provideMovieCategoryJoinDao(db: MoviesDatabase) = db.movieCategoryDao()
 
     @Provides
     @Singleton
-    fun providesMovieResponseToMovieMapper()  = MovieResponseToMovieMapper()
-
+    fun providesMovieResponseToMovieMapper() = MovieResponseToMovieMapper()
 
     @Provides
     @Singleton

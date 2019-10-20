@@ -1,6 +1,5 @@
 package io.fajarca.movies.ui
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.fajarca.movies.data.MoviesRepository
 import io.fajarca.movies.ui.home.HomeViewModel
 import org.junit.After
@@ -20,8 +19,7 @@ class HomeViewModelTest {
     lateinit var repository: MoviesRepository
 
     @InjectMocks
-    lateinit var viewModel : HomeViewModel
-
+    lateinit var viewModel: HomeViewModel
 
     /**
      * In this test, LiveData will immediately post values without switching threads.
@@ -34,7 +32,6 @@ class HomeViewModelTest {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
@@ -43,5 +40,4 @@ class HomeViewModelTest {
     @After
     fun tearDown() {
     }
-
 }

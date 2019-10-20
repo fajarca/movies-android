@@ -46,13 +46,13 @@ class UiStateView : ConstraintLayout {
         hideProgressBar()
     }
 
-    fun showNoData(@StringRes onNoDataMessageResId : Int) {
+    fun showNoData(@StringRes onNoDataMessageResId: Int) {
         setText(context.getString(onNoDataMessageResId))
         setImageResource(ContextCompat.getDrawable(context, R.drawable.ic_no_data))
         hideProgressBar()
     }
 
-    fun showError(@StringRes errorMessageResId : Int) {
+    fun showError(@StringRes errorMessageResId: Int) {
         setText(context.getString(errorMessageResId))
         setImageResource(ContextCompat.getDrawable(context, R.drawable.ic_error))
         hideProgressBar()
@@ -72,9 +72,7 @@ class UiStateView : ConstraintLayout {
         setText(text)
         setImageResource(imageDrawable)
         showProgressBar()
-
     }
-
 
     private fun getAttributes(attrs: AttributeSet) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.UiStateView)
@@ -107,6 +105,4 @@ class UiStateView : ConstraintLayout {
         tvResult.visibility = View.GONE
         ivResult.visibility = View.GONE
     }
-
-
 }

@@ -1,7 +1,7 @@
 package io.fajarca.movies.util
 
 import androidx.room.TypeConverter
-import java.util.*
+import java.util.Date
 
 class Converters {
     @TypeConverter

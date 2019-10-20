@@ -17,14 +17,13 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
+    @Provides
+    @Singleton
+    fun provideContext(app: MoviesApp): Context = app
 
     @Provides
     @Singleton
-    fun provideContext(app: MoviesApp) : Context = app
-
-    @Provides
-    @Singleton
-    fun provideApplications(app : MoviesApp) : Application = app
+    fun provideApplications(app: MoviesApp): Application = app
 
     @Provides
     @Singleton
@@ -36,11 +35,9 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesPreference(app : MoviesApp) : SharedPreferences  = app.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+    fun providesPreference(app: MoviesApp): SharedPreferences = app.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
     @Provides
     @Singleton
-    fun providesSharedPreference(sharedPreferences: SharedPreferences) : SharedPreferences.Editor = sharedPreferences.edit()
-
-
+    fun providesSharedPreference(sharedPreferences: SharedPreferences): SharedPreferences.Editor = sharedPreferences.edit()
 }
