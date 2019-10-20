@@ -57,6 +57,7 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
                 val movie = data[0]
                 binding.movie = movie
                 displayGenres(data)
+                displayRating(movie)
                 binding.tvAdult.text = if (movie.adult) "17+" else "All Age"
                 binding.tvRuntime.text = "${movie.runtime} minutes"
             }
@@ -77,5 +78,10 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         }
 
         binding.tvGenre.text = genres
+    }
+
+    private fun displayRating(movie: MovieCategory) {
+        binding.tvRating.text = "${movie.voteAverage}/10"
+        binding.tvRatingCount.text = "${movie.voteCount}"
     }
 }

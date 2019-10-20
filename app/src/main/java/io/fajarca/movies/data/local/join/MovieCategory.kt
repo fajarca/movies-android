@@ -31,6 +31,12 @@ data class MovieCategory(
     @ColumnInfo(name = "runtime")
     val runtime: String,
 
+    @ColumnInfo(name = "vote_count")
+    var voteCount: Long = 0,
+
+    @ColumnInfo(name = "vote_average")
+    var voteAverage: Float = 0.0f,
+
     @ColumnInfo(name = "category_id")
     val categoryId: Long,
 

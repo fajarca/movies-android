@@ -11,7 +11,7 @@ import io.fajarca.movies.data.local.join.MovieCategory
 @Dao
 interface MovieCategoryDao {
     @Query("""
-        SELECT movies.id as movie_id, movies.title, movies.overview, movies.backdrop_path, movies.poster_path, movies.video, movies.adult, movies.release_date, movies.runtime, categories.id as category_id, categories.name as category_name FROM movies
+        SELECT movies.id as movie_id, movies.title, movies.overview, movies.backdrop_path, movies.poster_path, movies.video, movies.adult, movies.release_date, movies.runtime, movies.vote_count, movies.vote_average, categories.id as category_id, categories.name as category_name FROM movies
        INNER JOIN movie_category_join ON movies.id  = movie_category_join.movie_id
 	   INNER JOIN categories ON movie_category_join.category_id = categories.id
        WHERE  movie_category_join.movie_id = :movieId"""
