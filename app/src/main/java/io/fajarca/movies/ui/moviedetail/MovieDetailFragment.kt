@@ -36,7 +36,7 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         super.onViewCreated(view, savedInstanceState)
 
         initRecyclerView()
-        vm.setData(movieId)
+        vm.initData(movieId)
         vm.movieDetail.observe(this, Observer { subscribeMovieDetail(it) })
         vm.casts.observe(this, Observer { casts -> subscribeMovieCasts(casts) })
     }
@@ -68,6 +68,7 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
                     binding.stateView.hideLoading()
                 }
                 Result.Status.SUCCESS -> {
+                    vm.setMovieId(movieId)
                     displayMovieDetails(it.data)
                     binding.stateView.hideLoading()
                 }

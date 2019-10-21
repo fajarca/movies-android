@@ -14,13 +14,15 @@ import io.fajarca.movies.vo.Result
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
-    NowPlayingPagerAdapter.onNowPlayingPressedListener {
+    NowPlayingPagerAdapter.onNowPlayingPressedListener, ViewPager.OnPageChangeListener {
+
 
     companion object {
-        private const val SWIPE_INTERVAL = 8000L
+        private const val SWIPE_INTERVAL = 5000L
     }
 
     override fun getLayoutResourceId() = R.layout.fragment_home
@@ -33,9 +35,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initNowPlayingBanner()
         initBannerSwipeScheduler()
+        initNowPlayingBanner()
 
         vm.nowPlaying.observe(this, Observer { data -> subscribeNowPlaying(data) })
     }
@@ -61,7 +62,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
         compositeDisposable += Observable.interval(SWIPE_INTERVAL, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                lastNowPlayingPosition = viewPager.currentItem
+                Timber.v("Position $lastNowPlayingPosition")
                 val headlineBannerSize = nowPlayingAdapter.count
                 if (lastNowPlayingPosition < headlineBannerSize - 1) {
                     viewPager.setCurrentItem(lastNowPlayingPosition + 1, true)
@@ -78,14 +79,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
             offscreenPageLimit = 3
         }
 
-        nowPlayingAdapter =
-            NowPlayingPagerAdapter(emptyList(), requireActivity(), this)
+        nowPlayingAdapter = NowPlayingPagerAdapter(emptyList(), requireActivity(), this)
         viewPager.adapter = nowPlayingAdapter
+        viewPager.addOnPageChangeListener(this)
     }
 
     private fun refreshBanner(data: List<NowPlaying>) {
         nowPlayingAdapter.refreshNowPlaying(data)
-        viewPager.currentItem = lastNowPlayingPosition + 1
+        viewPager.currentItem = lastNowPlayingPosition
     }
 
     override fun onNowPlayingPressed(banner: NowPlaying, position: Int) {
@@ -102,5 +103,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     override fun onPause() {
         super.onPause()
         compositeDisposable.clear()
+    }
+
+    override fun onPageScrollStateChanged(state: Int) {
+
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+    }
+
+    override fun onPageSelected(position: Int) {
+        lastNowPlayingPosition = position
     }
 }
