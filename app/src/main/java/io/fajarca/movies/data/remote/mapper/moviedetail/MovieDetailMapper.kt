@@ -47,12 +47,21 @@ class MovieDetailMapper {
         }.result()
     }
 
-    fun mapCastResponseToCast(movieId : Long, input: CastResponse): List<Cast> {
+    fun mapCastResponseToCast(movieId: Long, input: CastResponse): List<Cast> {
         return object : Mapper<CastResponse, List<Cast>>(input) {
             override fun map(input: CastResponse): List<Cast> {
                 val casts = mutableListOf<Cast>()
                 input.cast.forEach {
-                    casts.add(Cast(movieId, it.id, it.character ?: "", it.creditId ?: "", it.name ?: "", it.profilePath ?: ""))
+                    casts.add(
+                        Cast(
+                            movieId,
+                            it.id,
+                            it.character ?: "",
+                            it.creditId ?: "",
+                            it.name ?: "",
+                            it.profilePath ?: ""
+                        )
+                    )
                 }
                 return casts
             }
