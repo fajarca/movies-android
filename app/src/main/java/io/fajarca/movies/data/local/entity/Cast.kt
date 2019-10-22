@@ -15,20 +15,20 @@ import androidx.room.PrimaryKey
     )
 )
 data class Cast(
-    @ColumnInfo(name ="movie_id")
+    @ColumnInfo(name = "movie_id")
     var movieId: Long = 0,
-    @ColumnInfo(name ="cast_id")
+    @ColumnInfo(name = "cast_id")
     var castId: Long = 0,
-    @ColumnInfo(name ="character")
+    @ColumnInfo(name = "character")
     var character: String = "",
-    @ColumnInfo(name ="credit_id")
+    @ColumnInfo(name = "credit_id")
     var creditId: String = "",
-    @ColumnInfo(name ="name")
+    @ColumnInfo(name = "name")
     var name: String = "",
-    @ColumnInfo(name ="profile_path")
+    @ColumnInfo(name = "profile_path")
     var profilePath: String = ""
 ) {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name ="id")
+    @ColumnInfo(name = "id")
     var id: Long = 0
 }

@@ -30,8 +30,6 @@ class MovieDetailMapper {
                     input.runtime
                 )
             }
-
-
         }.result()
     }
 
@@ -44,7 +42,6 @@ class MovieDetailMapper {
                 }
                 return categories
             }
-
         }.result()
     }
 
@@ -78,7 +75,6 @@ class MovieDetailMapper {
                 }
                 return genres
             }
-
         }.result()
     }
 }

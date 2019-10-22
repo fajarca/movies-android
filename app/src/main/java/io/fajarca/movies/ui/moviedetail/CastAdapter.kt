@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.fajarca.movies.data.local.entity.Cast
 import io.fajarca.movies.databinding.ItemCastBinding
 
-
-class CastAdapter(private var casts: List<Cast>, var listener : OnCastPressed) : RecyclerView.Adapter<CastAdapter.ViewHolder>() {
+class CastAdapter(private var casts: List<Cast>, var listener: OnCastPressed) : RecyclerView.Adapter<CastAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -17,10 +16,10 @@ class CastAdapter(private var casts: List<Cast>, var listener : OnCastPressed) :
 
     override fun getItemCount(): Int = casts.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(casts[position],listener)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(casts[position], listener)
 
     class ViewHolder(private var binding: ItemCastBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(model: Cast, listener : OnCastPressed) {
+        fun bind(model: Cast, listener: OnCastPressed) {
             binding.cast = model
             binding.root.setOnClickListener { listener.onCastPressed(model) }
             binding.executePendingBindings()
@@ -33,6 +32,6 @@ class CastAdapter(private var casts: List<Cast>, var listener : OnCastPressed) :
     }
 
     interface OnCastPressed {
-        fun onCastPressed(cast : Cast)
+        fun onCastPressed(cast: Cast)
     }
 }

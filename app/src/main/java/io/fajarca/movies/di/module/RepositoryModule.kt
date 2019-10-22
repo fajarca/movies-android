@@ -29,10 +29,7 @@ class RepositoryModule {
     @Singleton
     fun provideMovieCategoryJoinDao(db: MoviesDatabase) = db.movieCategoryDao()
 
-
     @Provides
     @Singleton
     fun provideMovieDetailMapper() = MovieDetailMapper()
-
-
 }

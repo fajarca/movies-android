@@ -2,7 +2,6 @@ package io.fajarca.movies.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 
 @Entity(
     tableName = "movie_genre_junction",

@@ -4,7 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.room.withTransaction
 import io.fajarca.movies.base.BaseRepository
 import io.fajarca.movies.data.local.MoviesDatabase
-import io.fajarca.movies.data.local.dao.*
+import io.fajarca.movies.data.local.dao.GenreDao
+import io.fajarca.movies.data.local.dao.MovieDao
+import io.fajarca.movies.data.local.dao.MovieGenreJunctionDao
+import io.fajarca.movies.data.local.dao.NowPlayingDao
+import io.fajarca.movies.data.local.dao.CastDao
 import io.fajarca.movies.data.local.entity.Cast
 import io.fajarca.movies.data.local.entity.NowPlaying
 import io.fajarca.movies.data.local.join.MovieWithGenres
@@ -21,17 +25,17 @@ class MoviesRepository @Inject constructor(
     private val movieDao: MovieDao,
     private val categoryDao: GenreDao,
     private val movieCategoryDao: MovieGenreJunctionDao,
-    private val castDao : CastDao,
+    private val castDao: CastDao,
     private val mapper: MovieDetailMapper,
     private val apiService: ApiService,
-    private val db : MoviesDatabase
-    ) : BaseRepository() {
+    private val db: MoviesDatabase
+) : BaseRepository() {
 
     fun fetchNowPlaying(): LiveData<Result<List<NowPlaying>>> {
         return object : NetworkBoundResources<List<NowPlaying>, NowPlayingResponse>() {
             override fun loadFromDb(): LiveData<List<NowPlaying>> = nowPlayingDao.findAllNowPlaying()
             override fun shouldFetch(data: List<NowPlaying>?): Boolean = true
-            override suspend fun createCall(): Result<NowPlayingResponse> =  getApiResult { apiService.nowPlaying() }
+            override suspend fun createCall(): Result<NowPlayingResponse> = getApiResult { apiService.nowPlaying() }
             override suspend fun saveCallResult(response: NowPlayingResponse) = nowPlayingDao.deleteAndInsertInTransaction(response.results)
         }.asLiveData()
     }
@@ -51,7 +55,7 @@ class MoviesRepository @Inject constructor(
         }.asLiveData()
     }
 
-    fun fetchCasts(movieId: Long) : LiveData<Result<List<Cast>>> {
+    fun fetchCasts(movieId: Long): LiveData<Result<List<Cast>>> {
         return object : NetworkBoundResources<List<Cast>, CastResponse>() {
             override fun loadFromDb(): LiveData<List<Cast>> = castDao.findAll(movieId)
             override fun shouldFetch(data: List<Cast>?) = data == null
@@ -60,7 +64,6 @@ class MoviesRepository @Inject constructor(
                 val casts = mapper.mapCastResponseToCast(movieId, response)
                 castDao.deleteAndInsertInTransaction(movieId, casts)
             }
-
         }.asLiveData()
     }
 }

@@ -14,12 +14,10 @@ import io.fajarca.movies.vo.Result
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     NowPlayingPagerAdapter.onNowPlayingPressedListener, ViewPager.OnPageChangeListener {
-
 
     companion object {
         private const val SWIPE_INTERVAL = 5000L
@@ -105,11 +103,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
     }
 
     override fun onPageScrollStateChanged(state: Int) {
-
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
     }
 
     override fun onPageSelected(position: Int) {

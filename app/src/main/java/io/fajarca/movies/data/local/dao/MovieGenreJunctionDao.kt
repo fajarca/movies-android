@@ -11,7 +11,7 @@ import io.fajarca.movies.data.local.join.MovieWithGenres
 @Dao
 abstract class MovieGenreJunctionDao {
     @Query("SELECT * FROM MOVIES WHERE id =:movieId")
-    abstract fun findMovieWithCategories(movieId : Long) : LiveData<MovieWithGenres>
+    abstract fun findMovieWithCategories(movieId: Long): LiveData<MovieWithGenres>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insertAll(movieCategoryJoin: List<MovieGenreJunction>)

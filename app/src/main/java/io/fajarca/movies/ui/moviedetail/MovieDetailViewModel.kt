@@ -1,6 +1,9 @@
 package io.fajarca.movies.ui.moviedetail
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import io.fajarca.movies.data.MoviesRepository
 import io.fajarca.movies.data.local.entity.Cast
 import io.fajarca.movies.data.local.join.MovieWithGenres
@@ -16,7 +19,7 @@ class MovieDetailViewModel @Inject constructor(private val repository: MoviesRep
     val movieDetail: LiveData<Result<MovieWithGenres>> = Transformations.switchMap(movieId) {
         repository.fetchMovieDetail(it)
     }
-    val casts : LiveData<Result<List<Cast>>> = Transformations.switchMap(movId) {
+    val casts: LiveData<Result<List<Cast>>> = Transformations.switchMap(movId) {
         repository.fetchCasts(it)
     }
 

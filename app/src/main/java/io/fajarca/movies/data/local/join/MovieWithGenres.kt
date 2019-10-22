@@ -8,10 +8,8 @@ import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.data.local.entity.MovieGenreJunction
 
 data class MovieWithGenres(
-
-   @Embedded
-   var movie : Movie,
-
+    @Embedded
+    var movie: Movie,
     @Relation(
         entity = Genre::class,
         parentColumn = "id",

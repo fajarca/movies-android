@@ -10,7 +10,6 @@ import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
 import io.fajarca.movies.data.local.entity.Cast
 import io.fajarca.movies.data.local.entity.Genre
-import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.data.local.join.MovieWithGenres
 import io.fajarca.movies.databinding.FragmentMovieDetailBinding
 import io.fajarca.movies.vo.Result
@@ -104,7 +103,6 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         binding.tvGenre.text = genre
     }
 
-
     private fun displayCasts(data: List<Cast>) {
         adapter.refreshData(data)
     }
@@ -116,6 +114,5 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
     }
 
     override fun onCastPressed(cast: Cast) {
-
     }
 }

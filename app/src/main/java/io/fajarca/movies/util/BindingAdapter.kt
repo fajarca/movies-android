@@ -27,7 +27,6 @@ fun loadImage(view: ImageView, imageUrl: String?) {
         .into(view)
 }
 
-
 @BindingAdapter("loadPortraitImage")
 fun loadPortraitImage(view: ImageView, imageUrl: String?) {
     if (imageUrl.isNullOrEmpty()) return
