@@ -7,7 +7,7 @@
 
         <variable
                 name="movie"
-                type="io.fajarca.movies.data.local.join.MovieCategory" />
+                type="io.fajarca.movies.data.local.join.MovieWithGenres" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -37,7 +37,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:loadImage="@{movie.posterPath}"
+                    app:loadImage="@{movie.movie.posterPath}"
                     tools:srcCompat="@tools:sample/avatars[1]" />
 
             <TextView
@@ -48,7 +48,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="8dp"
                     tools:text="2019"
-                    app:toLocalizedDatetime="@{movie.releaseDate}"
+                    app:toLocalizedDatetime="@{movie.movie.releaseDate}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
@@ -94,7 +94,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageView"
                     tools:text="Joker"
-                    android:text="@{movie.title}"/>
+                    android:text="@{movie.movie.title}"/>
 
             <TextView
                     android:id="@+id/textView"
@@ -103,7 +103,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@{movie.overview}"
+                    android:text="@{movie.movie.overview}"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     app:layout_constraintEnd_toEndOf="parent"

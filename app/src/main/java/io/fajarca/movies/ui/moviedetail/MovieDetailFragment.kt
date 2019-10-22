@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import io.fajarca.movies.R
 import io.fajarca.movies.base.BaseFragment
 import io.fajarca.movies.data.local.entity.Cast
-import io.fajarca.movies.data.local.join.MovieCategory
+import io.fajarca.movies.data.local.entity.Genre
+import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.data.local.join.MovieWithGenres
 import io.fajarca.movies.databinding.FragmentMovieDetailBinding
 import io.fajarca.movies.vo.Result
 
@@ -58,7 +59,7 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         }
     }
 
-    private fun subscribeMovieDetail(it: Result<List<MovieCategory>>) {
+    private fun subscribeMovieDetail(it: Result<MovieWithGenres>) {
         it.let {
             when (it.status) {
                 Result.Status.LOADING -> {
@@ -76,39 +77,33 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
         }
     }
 
-    private fun displayMovieDetails(data: List<MovieCategory>?) {
+    private fun displayMovieDetails(data: MovieWithGenres?) {
         data?.let {
-            if (data.isNotEmpty()) {
-                val movie = data[0]
-                binding.movie = movie
-                displayGenres(data)
-                displayRating(movie)
-                binding.tvAdult.text = if (movie.adult) "17+" else "All Age"
-                binding.tvRuntime.text = "${movie.runtime} minutes"
-            }
+            binding.movie = data
+            displayGenres(it.genres)
+            binding.tvRating.text = "${data.movie.voteAverage}/10"
+            binding.tvRatingCount.text = "${data.movie.voteCount}"
+            binding.tvAdult.text = if (data.movie.adult) "17+" else "All Age"
+            binding.tvRuntime.text = "${data.movie.runtime} minutes"
         }
     }
 
-    private fun displayGenres(movieWithCategories: List<MovieCategory>) {
-        var genres = ""
+    private fun displayGenres(genres: List<Genre>) {
+        var genre = ""
 
-        val size = movieWithCategories.size
+        val size = genres.size
 
-        for ((i, movie) in movieWithCategories.withIndex()) {
+        for ((i, model) in genres.withIndex()) {
             if (i == size - 1) {
-                genres += movie.categoryName
+                genre += model.name
             } else {
-                genres += movie.categoryName + ", "
+                genre += model.name + ", "
             }
         }
 
-        binding.tvGenre.text = genres
+        binding.tvGenre.text = genre
     }
 
-    private fun displayRating(movie: MovieCategory) {
-        binding.tvRating.text = "${movie.voteAverage}/10"
-        binding.tvRatingCount.text = "${movie.voteCount}"
-    }
 
     private fun displayCasts(data: List<Cast>) {
         adapter.refreshData(data)

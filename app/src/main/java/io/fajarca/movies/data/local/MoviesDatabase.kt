@@ -10,8 +10,8 @@ import io.fajarca.movies.util.Converters
 @Database(entities = [
     NowPlaying::class,
     Movie::class,
-    Category::class,
-    MovieCategoryJoin::class,
+    Genre::class,
+    MovieGenreJunction::class,
     Cast::class
 ], version = 1)
 @TypeConverters(Converters::class)
@@ -19,7 +19,7 @@ abstract class MoviesDatabase : RoomDatabase() {
 
     abstract fun nowPlayingDao(): NowPlayingDao
     abstract fun movieDao(): MovieDao
-    abstract fun categoryDao(): CategoryDao
-    abstract fun movieCategoryDao(): MovieCategoryDao
+    abstract fun categoryDao(): GenreDao
+    abstract fun movieCategoryDao(): MovieGenreJunctionDao
     abstract fun castDao() : CastDao
 }

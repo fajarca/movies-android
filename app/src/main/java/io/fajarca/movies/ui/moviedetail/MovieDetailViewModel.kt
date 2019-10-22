@@ -3,7 +3,7 @@ package io.fajarca.movies.ui.moviedetail
 import androidx.lifecycle.*
 import io.fajarca.movies.data.MoviesRepository
 import io.fajarca.movies.data.local.entity.Cast
-import io.fajarca.movies.data.local.join.MovieCategory
+import io.fajarca.movies.data.local.join.MovieWithGenres
 import io.fajarca.movies.vo.Result
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class MovieDetailViewModel @Inject constructor(private val repository: MoviesRep
     private val movieId = MutableLiveData<Long>()
     private val movId = MutableLiveData<Long>()
 
-    val movieDetail: LiveData<Result<List<MovieCategory>>> = Transformations.switchMap(movieId) {
+    val movieDetail: LiveData<Result<MovieWithGenres>> = Transformations.switchMap(movieId) {
         repository.fetchMovieDetail(it)
     }
     val casts : LiveData<Result<List<Cast>>> = Transformations.switchMap(movId) {

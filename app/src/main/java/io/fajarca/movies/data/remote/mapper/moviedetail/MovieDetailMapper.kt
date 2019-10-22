@@ -1,10 +1,8 @@
 package io.fajarca.movies.data.remote.mapper.moviedetail
 
 import io.fajarca.movies.data.local.entity.Cast
-import io.fajarca.movies.data.local.entity.Category
 import io.fajarca.movies.data.local.entity.Movie
-import io.fajarca.movies.data.local.entity.MovieCategoryJoin
-import io.fajarca.movies.data.local.join.MovieCategory
+import io.fajarca.movies.data.local.entity.MovieGenreJunction
 import io.fajarca.movies.data.remote.mapper.Mapper
 import io.fajarca.movies.data.remote.response.CastResponse
 import io.fajarca.movies.data.remote.response.Genre
@@ -37,12 +35,12 @@ class MovieDetailMapper {
         }.result()
     }
 
-    fun mapMovieResponseToCategory(input: MovieDetailsResponse): List<Category> {
-        return object : Mapper<MovieDetailsResponse, List<Category>>(input) {
-            override fun map(input: MovieDetailsResponse): List<Category> {
-                val categories = mutableListOf<Category>()
+    fun mapMovieResponseToCategory(input: MovieDetailsResponse): List<io.fajarca.movies.data.local.entity.Genre> {
+        return object : Mapper<MovieDetailsResponse, List<io.fajarca.movies.data.local.entity.Genre>>(input) {
+            override fun map(input: MovieDetailsResponse): List<io.fajarca.movies.data.local.entity.Genre> {
+                val categories = mutableListOf<io.fajarca.movies.data.local.entity.Genre>()
                 input.genres.forEach {
-                    categories.add(Category(it.id, it.name))
+                    categories.add(io.fajarca.movies.data.local.entity.Genre(it.id, it.name))
                 }
                 return categories
             }
@@ -71,12 +69,12 @@ class MovieDetailMapper {
         }.result()
     }
 
-    fun mapGenreToMovieCategory(movieId: Long, genres: List<Genre>): List<MovieCategoryJoin> {
-        return object : Mapper<List<Genre>, List<MovieCategoryJoin>>(genres) {
-            override fun map(input: List<Genre>): List<MovieCategoryJoin> {
-                val genres = mutableListOf<MovieCategoryJoin>()
+    fun mapGenreToMovieCategory(movieId: Long, genres: List<Genre>): List<MovieGenreJunction> {
+        return object : Mapper<List<Genre>, List<MovieGenreJunction>>(genres) {
+            override fun map(input: List<Genre>): List<MovieGenreJunction> {
+                val genres = mutableListOf<MovieGenreJunction>()
                 input.forEach {
-                    genres.add(MovieCategoryJoin(movieId, it.id))
+                    genres.add(MovieGenreJunction(movieId, it.id))
                 }
                 return genres
             }
