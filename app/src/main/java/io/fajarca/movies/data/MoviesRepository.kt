@@ -1,6 +1,7 @@
 package io.fajarca.movies.data
 
 import androidx.lifecycle.LiveData
+import androidx.room.withTransaction
 import io.fajarca.movies.base.BaseRepository
 import io.fajarca.movies.data.local.MoviesDatabase
 import io.fajarca.movies.data.local.dao.*
@@ -23,7 +24,8 @@ class MoviesRepository @Inject constructor(
     private val movieCategoryDao: MovieCategoryDao,
     private val castDao : CastDao,
     private val mapper: MovieDetailMapper,
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val db : MoviesDatabase
     ) : BaseRepository() {
 
     fun fetchNowPlaying(): LiveData<Result<List<NowPlaying>>> {
@@ -38,13 +40,13 @@ class MoviesRepository @Inject constructor(
     fun fetchMovieDetail(movieId: Long): LiveData<Result<List<MovieCategory>>> {
         return object : NetworkBoundResources<List<MovieCategory>, MovieDetailsResponse>() {
             override fun loadFromDb(): LiveData<List<MovieCategory>> = movieCategoryDao.findMovieWithCategory(movieId)
-            override fun shouldFetch(data: List<MovieCategory>?): Boolean = true
+            override fun shouldFetch(data: List<MovieCategory>?): Boolean = data == null
             override suspend fun createCall(): Result<MovieDetailsResponse> = getApiResult { apiService.movie(movieId) }
             override suspend fun saveCallResult(response: MovieDetailsResponse) {
-                movieDao.insert(mapper.mapMovieResponseToMovie(response))
-                categoryDao.insertAll(mapper.mapMovieResponseToCategory(response))
-                response.genres.forEach {
-                    movieCategoryDao.insert(MovieCategoryJoin(response.id, it.id))
+                db.withTransaction {
+                    movieDao.insert(mapper.mapMovieResponseToMovie(response))
+                    categoryDao.insertAll(mapper.mapMovieResponseToCategory(response))
+                    movieCategoryDao.insertAll(mapper.mapGenreToMovieCategory(movieId, response.genres))
                 }
             }
         }.asLiveData()
@@ -53,7 +55,7 @@ class MoviesRepository @Inject constructor(
     fun fetchCasts(movieId: Long) : LiveData<Result<List<Cast>>> {
         return object : NetworkBoundResources<List<Cast>, CastResponse>() {
             override fun loadFromDb(): LiveData<List<Cast>> = castDao.findAll(movieId)
-            override fun shouldFetch(data: List<Cast>?) = true
+            override fun shouldFetch(data: List<Cast>?) = data == null
             override suspend fun createCall(): Result<CastResponse> = getApiResult { apiService.cast(movieId) }
             override suspend fun saveCallResult(response: CastResponse) {
                 val casts = mapper.mapCastResponseToCast(movieId, response)

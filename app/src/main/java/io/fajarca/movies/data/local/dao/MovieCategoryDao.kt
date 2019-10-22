@@ -19,5 +19,5 @@ abstract class MovieCategoryDao {
     abstract fun findMovieWithCategory(movieId: Long): LiveData<List<MovieCategory>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(movieCategoryJoin: MovieCategoryJoin)
+    abstract suspend fun insertAll(movieCategoryJoin: List<MovieCategoryJoin>)
 }

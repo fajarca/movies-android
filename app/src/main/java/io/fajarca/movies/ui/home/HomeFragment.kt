@@ -62,7 +62,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(),
         compositeDisposable += Observable.interval(SWIPE_INTERVAL, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                Timber.v("Position $lastNowPlayingPosition")
                 val headlineBannerSize = nowPlayingAdapter.count
                 if (lastNowPlayingPosition < headlineBannerSize - 1) {
                     viewPager.setCurrentItem(lastNowPlayingPosition + 1, true)

@@ -3,8 +3,11 @@ package io.fajarca.movies.data.remote.mapper.moviedetail
 import io.fajarca.movies.data.local.entity.Cast
 import io.fajarca.movies.data.local.entity.Category
 import io.fajarca.movies.data.local.entity.Movie
+import io.fajarca.movies.data.local.entity.MovieCategoryJoin
+import io.fajarca.movies.data.local.join.MovieCategory
 import io.fajarca.movies.data.remote.mapper.Mapper
 import io.fajarca.movies.data.remote.response.CastResponse
+import io.fajarca.movies.data.remote.response.Genre
 import io.fajarca.movies.data.remote.response.MovieDetailsResponse
 
 class MovieDetailMapper {
@@ -65,6 +68,19 @@ class MovieDetailMapper {
                 }
                 return casts
             }
+        }.result()
+    }
+
+    fun mapGenreToMovieCategory(movieId: Long, genres: List<Genre>): List<MovieCategoryJoin> {
+        return object : Mapper<List<Genre>, List<MovieCategoryJoin>>(genres) {
+            override fun map(input: List<Genre>): List<MovieCategoryJoin> {
+                val genres = mutableListOf<MovieCategoryJoin>()
+                input.forEach {
+                    genres.add(MovieCategoryJoin(movieId, it.id))
+                }
+                return genres
+            }
+
         }.result()
     }
 }
