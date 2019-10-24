@@ -9,9 +9,9 @@ data class CastResponse(
 
 data class Cast(
     @SerializedName("character")
-    val character: String? = "",
+    val character: String = "",
     @SerializedName("credit_id")
-    val creditId: String? = "",
+    val creditId: String = "",
     @SerializedName("id")
     val id: Long = 0,
     @SerializedName("name")

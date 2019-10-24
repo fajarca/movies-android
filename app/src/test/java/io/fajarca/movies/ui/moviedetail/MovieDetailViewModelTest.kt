@@ -39,4 +39,14 @@ class MovieDetailViewModelTest {
         verify(repository).fetchMovieDetail(movieId)
     }
 
+    @Test
+    fun givenValidMovieId_WhenCastRequested_ThenFetchData() {
+        viewModel.initData(movieId)
+
+        viewModel.casts.observeForever{}
+        verify(repository).fetchCasts(movieId)
+    }
+
+
+
 }

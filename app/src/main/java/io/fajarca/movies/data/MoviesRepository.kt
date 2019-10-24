@@ -23,7 +23,7 @@ import javax.inject.Inject
 class MoviesRepository @Inject constructor(
     private val nowPlayingDao: NowPlayingDao,
     private val movieDao: MovieDao,
-    private val categoryDao: GenreDao,
+    private val genreDao: GenreDao,
     private val movieCategoryDao: MovieGenreJunctionDao,
     private val castDao: CastDao,
     private val mapper: MovieDetailMapper,
@@ -48,7 +48,7 @@ class MoviesRepository @Inject constructor(
             override suspend fun saveCallResult(response: MovieDetailsResponse) {
                 db.withTransaction {
                     movieDao.insert(mapper.mapMovieResponseToMovie(response))
-                    categoryDao.insertAll(mapper.mapMovieResponseToCategory(response))
+                    genreDao.insertAll(mapper.mapMovieResponseToCategory(response))
                     movieCategoryDao.insertAll(mapper.mapGenreToMovieCategory(movieId, response.genres))
                 }
             }

@@ -1,12 +1,13 @@
 package io.fajarca.movies.data.remote.mapper.moviedetail
 
 import io.fajarca.movies.data.local.entity.Cast
+import io.fajarca.movies.data.local.entity.Genre
 import io.fajarca.movies.data.local.entity.Movie
 import io.fajarca.movies.data.local.entity.MovieGenreJunction
 import io.fajarca.movies.data.remote.mapper.Mapper
 import io.fajarca.movies.data.remote.response.CastResponse
-import io.fajarca.movies.data.remote.response.Genre
 import io.fajarca.movies.data.remote.response.MovieDetailsResponse
+import io.fajarca.movies.data.remote.response.MovieGenre
 
 class MovieDetailMapper {
 
@@ -15,30 +16,30 @@ class MovieDetailMapper {
             override fun map(input: MovieDetailsResponse): Movie {
                 return Movie(
                     input.id,
-                    input.title ?: "",
-                    input.originalTitle ?: "",
+                    input.title,
+                    input.originalTitle,
                     input.overview ?: "",
                     input.backdropPath,
                     input.posterPath ?: "",
-                    input.originalLanguage ?: "",
+                    input.originalLanguage,
                     input.popularity,
                     input.voteCount,
                     input.voteAverage,
                     input.video,
                     input.adult,
-                    input.releaseDate ?: "",
-                    input.runtime
+                    input.releaseDate,
+                    input.runtime ?: 0
                 )
             }
         }.result()
     }
 
-    fun mapMovieResponseToCategory(input: MovieDetailsResponse): List<io.fajarca.movies.data.local.entity.Genre> {
-        return object : Mapper<MovieDetailsResponse, List<io.fajarca.movies.data.local.entity.Genre>>(input) {
-            override fun map(input: MovieDetailsResponse): List<io.fajarca.movies.data.local.entity.Genre> {
-                val categories = mutableListOf<io.fajarca.movies.data.local.entity.Genre>()
+    fun mapMovieResponseToCategory(input: MovieDetailsResponse): List<Genre> {
+        return object : Mapper<MovieDetailsResponse, List<Genre>>(input) {
+            override fun map(input: MovieDetailsResponse): List<Genre> {
+                val categories = mutableListOf<Genre>()
                 input.genres.forEach {
-                    categories.add(io.fajarca.movies.data.local.entity.Genre(it.id, it.name))
+                    categories.add(Genre(it.id, it.name))
                 }
                 return categories
             }
@@ -54,8 +55,8 @@ class MovieDetailMapper {
                         Cast(
                             movieId,
                             it.id,
-                            it.character ?: "",
-                            it.creditId ?: "",
+                            it.character,
+                            it.creditId,
                             it.name ?: "",
                             it.profilePath ?: ""
                         )
@@ -66,9 +67,9 @@ class MovieDetailMapper {
         }.result()
     }
 
-    fun mapGenreToMovieCategory(movieId: Long, genres: List<Genre>): List<MovieGenreJunction> {
-        return object : Mapper<List<Genre>, List<MovieGenreJunction>>(genres) {
-            override fun map(input: List<Genre>): List<MovieGenreJunction> {
+    fun mapGenreToMovieCategory(movieId: Long, genres: List<MovieGenre>): List<MovieGenreJunction> {
+        return object : Mapper<List<MovieGenre>, List<MovieGenreJunction>>(genres) {
+            override fun map(input: List<MovieGenre>): List<MovieGenreJunction> {
                 val genres = mutableListOf<MovieGenreJunction>()
                 input.forEach {
                     genres.add(MovieGenreJunction(movieId, it.id))
