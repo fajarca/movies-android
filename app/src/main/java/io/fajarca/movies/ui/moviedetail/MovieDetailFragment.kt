@@ -68,7 +68,6 @@ class MovieDetailFragment : BaseFragment<FragmentMovieDetailBinding, MovieDetail
                     binding.stateView.hideLoading()
                 }
                 Result.Status.SUCCESS -> {
-                    vm.setMovieId(movieId)
                     displayMovieDetails(it.data)
                     binding.stateView.hideLoading()
                 }

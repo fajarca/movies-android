@@ -5,15 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "casts",
-    foreignKeys = arrayOf(
-        ForeignKey(
-            entity = Movie::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("movie_id")
-        )
-    )
-)
+@Entity(tableName = "casts")
 data class Cast(
     @ColumnInfo(name = "movie_id")
     var movieId: Long = 0,

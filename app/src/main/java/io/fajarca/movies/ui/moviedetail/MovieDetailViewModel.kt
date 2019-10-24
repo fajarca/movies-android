@@ -14,12 +14,11 @@ class MovieDetailViewModel @Inject constructor(private val repository: MoviesRep
     ViewModel() {
 
     private val movieId = MutableLiveData<Long>()
-    private val movId = MutableLiveData<Long>()
 
     val movieDetail: LiveData<Result<MovieWithGenres>> = Transformations.switchMap(movieId) {
         repository.fetchMovieDetail(it)
     }
-    val casts: LiveData<Result<List<Cast>>> = Transformations.switchMap(movId) {
+    val casts: LiveData<Result<List<Cast>>> = Transformations.switchMap(movieId) {
         repository.fetchCasts(it)
     }
 
@@ -27,7 +26,4 @@ class MovieDetailViewModel @Inject constructor(private val repository: MoviesRep
         this.movieId.value = movieId
     }
 
-    fun setMovieId(movId: Long) {
-        this.movId.value = movId
-    }
 }
