@@ -2,6 +2,8 @@ package io.fajarca.movies.ui.moviedetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import io.fajarca.movies.data.MoviesRepository
+import io.fajarca.movies.util.TestCoroutineRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -20,6 +22,10 @@ class MovieDetailViewModelTest {
     //Run LiveData synchronously
     @get:Rule
     var rule  = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    val testCoroutineRule = TestCoroutineRule()
 
     private val movieId = 120L
 
