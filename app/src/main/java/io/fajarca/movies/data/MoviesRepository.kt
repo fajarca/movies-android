@@ -24,7 +24,7 @@ class MoviesRepository @Inject constructor(
     private val nowPlayingDao: NowPlayingDao,
     private val movieDao: MovieDao,
     private val genreDao: GenreDao,
-    private val movieCategoryDao: MovieGenreJunctionDao,
+    private val movieGenreDao: MovieGenreJunctionDao,
     private val castDao: CastDao,
     private val mapper: MovieDetailMapper,
     private val apiService: ApiService,
@@ -42,14 +42,14 @@ class MoviesRepository @Inject constructor(
 
     fun fetchMovieDetail(movieId: Long): LiveData<Result<MovieWithGenres>> {
         return object : NetworkBoundResources<MovieWithGenres, MovieDetailsResponse>() {
-            override fun loadFromDb(): LiveData<MovieWithGenres> = movieCategoryDao.findMovieWithCategories(movieId)
+            override fun loadFromDb(): LiveData<MovieWithGenres> = movieGenreDao.findMovieWithCategories(movieId)
             override fun shouldFetch(data: MovieWithGenres?): Boolean = data == null
             override suspend fun createCall(): Result<MovieDetailsResponse> = getApiResult { apiService.movie(movieId) }
             override suspend fun saveCallResult(response: MovieDetailsResponse) {
                 db.withTransaction {
                     movieDao.insert(mapper.mapMovieResponseToMovie(response))
                     genreDao.insertAll(mapper.mapMovieResponseToCategory(response))
-                    movieCategoryDao.insertAll(mapper.mapGenreToMovieCategory(movieId, response.genres))
+                    movieGenreDao.insertAll(mapper.mapGenreToMovieCategory(movieId, response.genres))
                 }
             }
         }.asLiveData()
@@ -66,4 +66,6 @@ class MoviesRepository @Inject constructor(
             }
         }.asLiveData()
     }
+
+    fun sum(x : Int, y : Int) = x+ y
 }

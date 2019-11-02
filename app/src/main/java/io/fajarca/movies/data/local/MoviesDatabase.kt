@@ -27,7 +27,7 @@ abstract class MoviesDatabase : RoomDatabase() {
 
     abstract fun nowPlayingDao(): NowPlayingDao
     abstract fun movieDao(): MovieDao
-    abstract fun categoryDao(): GenreDao
-    abstract fun movieCategoryDao(): MovieGenreJunctionDao
+    abstract fun genreDao(): GenreDao
+    abstract fun movieGenreDao(): MovieGenreJunctionDao
     abstract fun castDao(): CastDao
 }
