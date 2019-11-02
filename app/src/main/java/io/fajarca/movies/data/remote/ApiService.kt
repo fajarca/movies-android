@@ -1,5 +1,6 @@
 package io.fajarca.movies.data.remote
 
+import io.fajarca.movies.data.remote.response.CastResponse
 import io.fajarca.movies.data.remote.response.MovieDetailsResponse
 import io.fajarca.movies.data.remote.response.NowPlayingResponse
 import retrofit2.Response
@@ -20,4 +21,9 @@ interface ApiService {
         @Path("movieId") movieId: Long,
         @Query("language") language: String = "en-US"
     ): Response<MovieDetailsResponse>
+
+    @GET("{movieId}/credits")
+    suspend fun cast(
+        @Path("movieId") movieId: Long
+    ): Response<CastResponse>
 }

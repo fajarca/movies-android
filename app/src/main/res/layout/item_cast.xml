@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="cast"
+                type="io.fajarca.movies.data.local.entity.Cast" />
+    </data>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
+        <ImageView
+                android:id="@+id/ivCastImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:loadPortraitImage="@{cast.profilePath}"
+                tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+                android:id="@+id/tvCastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="1"
+                android:maxLines="2"
+                android:text="@{cast.name}"
+                android:ellipsize="end"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:gravity="center"
+                tools:text="Joaquin Phoenix" />
+
+        <TextView
+                android:id="@+id/tvCharacterName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minLines="1"
+                android:text="@{cast.character}"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Arthur Fleck" />
+
+    </LinearLayout>
+
+</layout>

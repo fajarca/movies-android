@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "categories")
-data class Category(
+@Entity(tableName = "genres")
+data class Genre(
 
     @PrimaryKey
     @ColumnInfo(name = "id")

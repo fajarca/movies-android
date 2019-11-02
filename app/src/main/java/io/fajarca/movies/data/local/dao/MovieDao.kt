@@ -8,11 +8,11 @@ import androidx.room.Query
 import io.fajarca.movies.data.local.entity.Movie
 
 @Dao
-interface MovieDao {
+abstract class MovieDao {
 
     @Query("SELECT * FROM movies WHERE id =:movieId")
-    fun findMovieById(movieId: Long): LiveData<Movie>
+    abstract fun findMovieById(movieId: Long): LiveData<Movie>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(nowPlayings: Movie)
+    abstract suspend fun insert(nowPlayings: Movie)
 }
